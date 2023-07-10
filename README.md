@@ -29,19 +29,24 @@ The following are the main users for the categories:
 
 **1. Yash Patel**
    - _Github_name_: yashpatel1999
-   - _Role_ : 
+   - _Role_ : TBD
+
 **2. Yagnik Pansuriya**
    - _Github_name_: Yagnik27
-   - _Role_ : 
+   - _Role_ : TBD
+
 **3. Rahul Patel**
    - _Github_name_: rahulpatel13
-   - _Role_ :
-**1. Krishna Patel**
+   - _Role_ : TBD
+
+**4. Krishna Patel**
    - _Github_name_: KP320
-   - _Role_ :
-**1. Amrita Awasthi**
+   - _Role_ : TBD
+
+**5. Amrita Awasthi**
    - _Github_name_: Ami-123
-   - _Role_ :
+   - _Role_ : TBD
+
 
 ## 3. Technology Used:
 TBD
