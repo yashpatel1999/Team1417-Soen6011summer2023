@@ -27,26 +27,13 @@ The following are the main users for the categories:
 
 ## 2. Team Members and roles
 
-**1. Yash Patel**
-   - _Github_name_: yashpatel1999
-   - _Role_ : TBD
-
-**2. Yagnik Pansuriya**
-   - _Github_name_: Yagnik27
-   - _Role_ : TBD
-
-**3. Rahul Patel**
-   - _Github_name_: rahulpatel13
-   - _Role_ : TBD
-
-**4. Krishna Patel**
-   - _Github_name_: KP320
-   - _Role_ : TBD
-
-**5. Amrita Awasthi**
-   - _Github_name_: Ami-123
-   - _Role_ : TBD
-
+|Name| Github_name | Roles |
+|---|---|---|
+|Yash Patel| yashpatel1999|Project Manager|
+|Rahul Patel| rahulpatel13|Database Designer|
+|Krishna Patel| KP320|UI/UX Developer|
+|Yagnik Pansuriya| Yagnik27|Backend Developer|
+|Amrita Awasthi| Ami-123|Tester|
 
 ## 3. Technology Used:
 **Spring MVC** is a very popular web framework that is dependent on Java. We have chosen this framework due to various reasons:
@@ -55,7 +42,6 @@ The following are the main users for the categories:
 
 
 **Separation of Concern**: As it follows MVC Architecture, we can clearly separate concerns between the Data and Business Logic, User Interface, and the controller which controls the user flow and output. This feature majorly enhances code readability, maintainability, and testability.
-
 
 **Easy Database Integration**: Spring MVC provides seamless integration with various databases through the Spring Data module. It offers support for popular databases such as MySQL, PostgreSQL, Oracle, MongoDB, and more.
 
