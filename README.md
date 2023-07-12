@@ -49,4 +49,14 @@ The following are the main users for the categories:
 
 
 ## 3. Technology Used:
-TBD
+**Spring MVC** is a very popular web framework that is dependent on Java. We have chosen this framework due to various reasons:
+
+**Lightweight and Modularity**: It follows a modular architecture where it allows developers to configure necessary components for the application. The lightweight and flexibility make it easy to integrate separately developed modules into the existing and ongoing project. 
+
+
+**Separation of Concern**: As it follows MVC Architecture, we can clearly separate concerns between the Data and Business Logic, User Interface, and the controller which controls the user flow and output. This feature majorly enhances code readability, maintainability, and testability.
+
+
+**Easy Database Integration**: Spring MVC provides seamless integration with various databases through the Spring Data module. It offers support for popular databases such as MySQL, PostgreSQL, Oracle, MongoDB, and more.
+
+Overall, the advantages of Spring MVC make it a popular choice for building web applications, offering flexibility, modularity, and integration with other Spring projects, along with a rich set of features and a simple database integration.
