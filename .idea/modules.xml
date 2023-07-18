@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CareerServiceApp/CareerServiceApp.iml" filepath="$PROJECT_DIR$/CareerServiceApp/CareerServiceApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Team1417-Soen6011summer2023.iml" filepath="$PROJECT_DIR$/.idea/Team1417-Soen6011summer2023.iml" />
+    </modules>
+  </component>
+</project>
