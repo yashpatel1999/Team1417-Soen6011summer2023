@@ -78,5 +78,61 @@ public class CandidateController {
         return "candidate";
     }
 
-   
+    @GetMapping("/createResume")
+    public String createResume(@RequestParam String id, Model model)
+    {
+        model.addAttribute("pid",id);
+        System.out.println("Create resume: by candidate"+ id);
+        return "create_resume";
+    }
+
+    @GetMapping("/processResume")
+    public String processResume(
+            @RequestParam(value = "firstName", required = false) String firstName,
+            @RequestParam(value = "lastName", required = false) String lastName,
+            @RequestParam(value = "dob", required = false)Date dob,
+            @RequestParam(value = "contactNumber", required = false) String contactNumber,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "education", required = false) String education,
+            @RequestParam(value = "workExperience", required = false) String workExperience,
+            @RequestParam(value = "projects", required = false) String projects,
+            @RequestParam(value = "skills", required = false) String skills, Model model) throws SQLException, ClassNotFoundException {
+        Resume resume = new Resume();
+        resume.setFirstName(firstName);
+        resume.setLastName(lastName);
+        resume.setEmail(email);
+        resume.setBirthday(dob);
+        resume.setCno(Long.parseLong(contactNumber));
+        resume.setEducation(education);
+        resume.setWorkex(workExperience);
+        resume.setProjects(projects);
+        resume.setSkills(skills);
+
+        System.out.println("Resume info : " + resume);
+
+        String status = resumeService.checkResume(email);
+
+        System.out.println("old pat  >>> " + status);
+
+        if (status.equalsIgnoreCase("notExist")) {
+            resumeService.saveResume(resume);
+            model.addAttribute("status", "success");
+            model.addAttribute("message", "success");
+            return "redirect:/success/" + email;
+        } else {
+            return "redirect:/failed/" + email;
+        }
+    }
+    @GetMapping("/success/{pid}")
+    public String goSuccess(@PathVariable String pid, Model model) {
+        model.addAttribute("pid", pid);
+        System.out.println("resume uploaded successfully : " + pid);
+        return "success";
+    }
+    @GetMapping("/failed/{pid}")
+    public String checkFailed(@PathVariable String pid, Model model) {
+        model.addAttribute("pid", pid);
+        System.out.println("resume didn't uploaded successfully: " + pid);
+        return "failed";
+    }
 }
