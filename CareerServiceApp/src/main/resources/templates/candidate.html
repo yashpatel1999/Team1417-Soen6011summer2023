@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Career Services</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="/"><img class="header-icon" src="/images/careerservices.jpeg"></a>
+        </div>
+        <div class="navbar-header">
+            <p id="p1"> Welcome to The Candidate Page</p>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a th:href="@{/profile(id=${pid},type=P)}">My Profile</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="image-with-description">
+    <img src="/images/rb-logo-removebg-preview.png">
+    <div class="image-with-description_description">
+        <h3><a th:href="@{/createResume(id=${pid})}">Create Your Resume Here</a></h3>
+        <p class="paragraph-text">Creating a well-crafted resume is the key to opening doors of opportunity and showcasing your skills and accomplishments</p>
+    </div>
+</div>
+
+<div class="image-with-description">
+    <img src="/images/uploadResume.png" height="50px" width="50px">
+    <div class="image-with-description_description">
+        <h3><a th:href="@{/buildResume(id=${pid})}">Build Your Resume Here</a></h3>
+        <p class="paragraph-text">Creating a well-crafted resume is the key to opening doors of opportunity and showcasing your skills and accomplishments</p>
+    </div>
+</div>
+</body>
+</html>

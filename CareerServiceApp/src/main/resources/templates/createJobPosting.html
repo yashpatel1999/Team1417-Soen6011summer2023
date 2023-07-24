@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Create Job Postings</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<main>
+<h1>Add a Job Posting</h1>
+<div class="register-container">
+    <div class="skeleton-container display-none">
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton skeleton-btn"></div>
+    </div>
+    <form id="resumeBuilder" action="addJobPosting" class="display-none register-form">
+        <!-- Add fields for creating a new resume -->
+        <div class="success-message display-none"> you uploaded Job successfully</div>
+        <div class="field-raw">
+            <label for="jobId">Job Id</label>
+            <input type="text" class="jobId" name="jobId" value=""><br><br>
+            <small class="alert-message">*First Name is required</small>
+        </div>
+        <div class="field-raw">
+            <label for="title">Job Title</label>
+            <input type="text" class="title" name="title" value=""><br><br>
+            <small class="alert-message">*First Name is required</small>
+        </div>
+        <div>
+            <label for="desc">Job Description</label>
+            <input type="text" class="desc" name="desc"><br><br>
+            <small class="alert-message">Description is required</small>
+        </div>
+<!--        <div>-->
+<!--            <label for="jobposted">Date Posted:</label>-->
+<!--            <input type="date" class="jobposted" name="jobposted"><br><br>-->
+<!--            <small class="alert-message">Job Posted is Required</small>-->
+<!--        </div>-->
+        <div>
+            <label for="companyName">company Name:</label>
+            <input type="text" name="companyName" class="companyName">
+            <small class="alert-message">Company name is Required</small>
+        </div>
+        <div>
+            <label for="companyLocation">comapany location:</label>
+            <input type="text" class="companyLocation" name="companyLocation"><br><br>
+            <small class="alert-message">*company Location is required</small>
+        </div>
+        <button class="register-button">Submit</button>
+    </form>
+</div>
+</main>
+</body>
+</html>
