@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap"
+            rel="stylesheet"
+    />
+    <!--        <link rel="stylesheet" href="css/viewJob.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>view Candidate profile</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .resume {
+        width: 800px;
+        height: 650px;
+        background-color: #ffffff;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .header {
+        text-align: center;
+        padding: 20px;
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .content {
+        padding: 20px;
+    }
+    .content strong{
+        font-size: 15px;
+    }
+
+    .content div {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 10px;
+        border-bottom: 1px dashed black;
+    }
+
+    .actions {
+        text-align: center;
+        padding: 20px;
+    }
+
+    button {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    #accept-button {
+        background-color: #28a745;
+        margin-right: 10px;
+    }
+
+    #reject-button {
+        background-color: #dc3545;
+    }
+
+</style>
+<body>
+<div class="container">
+    <div class="resume">
+        <div class="header">
+            <h1>Resume of : </h1>
+            <div id ="c_name"></div>
+        </div>
+        <div class="content">
+            <strong>Name:</strong>
+                <div id="name"></div>
+            <p><strong>Email:</strong>
+                <div id="email"></div>
+            <strong>Date of Birth:</strong>
+                <div id="dob"></div>
+            <strong>Education: </strong>
+                <div id = "education"></div>
+            <strong>contact no:</strong>
+                <div id="c_no"></div>
+            <strong>Skills:</strong>
+                <div id = "skills"></div>
+            <strong>Experience:</strong>
+                <div id="experience"></div>
+            <strong>Project:</strong>
+                <div id="project"></div>
+        </div>
+        <form id="select-can" action="selectCandidate" class="select-can">
+            <input type="hidden" name="jid" id="jid" value="">
+            <input type="hidden" name="cid" id="cid" value="">
+            <input type="hidden" name="eid" id="eid" value="">
+            <input type="hidden" name="status" id="status" value="">
+            <div class="actions">
+                <button id="accept-button">Accept</button>
+                <button id="reject-button">Reject</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    console.log(params);
+    var cid = params.get("cid");
+    console.log(cid);
+    let data = new Object();
+    var jid = params.get("jid");
+    console.log(jid);
+    var eid = params.get("eid")
+
+    let url = "http://localhost:9997/postResumeDetails?cid=" + cid;
+    console.log(url);
+    // $(".empty-screen").html = "";
+    fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+    }).then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            var data1=data.resumeDetails;
+            var details = data1[0];
+
+            document.getElementById("name").innerHTML = details.fname+" "+ details.lnmae;
+            document.getElementById("email").innerHTML = details.email_id;
+            document.getElementById("dob").innerHTML = details.date;
+            document.getElementById("c_no").innerHTML = details.c_no;
+            document.getElementById("education").innerHTML = details.education1;
+            document.getElementById("skills").innerHTML = details.skills1;
+            document.getElementById("project").innerHTML = details.projects1;
+            document.getElementById("experience").innerHTML = details.workex1;
+
+            document.getElementById("cid").value = cid;
+            document.getElementById("jid").value = jid;
+            document.getElementById("eid").value = eid;
+            const acceptButton = document.getElementById("accept-button");
+            const rejectButton = document.getElementById("reject-button");
+
+            acceptButton.addEventListener("click", () => {
+                document.getElementById("status").value = "accepted";
+                console.log("accept clicked");
+            });
+
+            rejectButton.addEventListener("click", () => {
+                document.getElementById("status").value = "rejected";
+                console.log("reject clicked");
+            });
+
+        });
+</script>
+
+</body>
+</html>
