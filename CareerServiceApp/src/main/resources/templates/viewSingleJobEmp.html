@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap"
+            rel="stylesheet"
+    />
+    <!--        <link rel="stylesheet" href="css/viewJob.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>view Job</title>
+</head>
+<body>
+
+<style>
+
+    /* Page layout */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f7f7;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    .job-header
+    {
+        text-align: center;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #007bff;
+        margin-bottom: 20px;
+    }
+    .job-header .job-title {
+        margin: 0;
+        font-size: 24px;
+        color: #333;
+    }
+    .job-details {
+        padding: 20px 0;
+        border-bottom: 1px solid blue;
+        margin-bottom: 20px;
+    }
+    .job-details .job-id {
+        margin: 0;
+        line-height: 1.6;
+        color: #444;
+        border-bottom: 1px dashed rebeccapurple;
+    }
+    .job-details .job-id h2{
+        font-size: 15px;
+        color: black;
+        font-family: Verdana, Geneva, Tahoma, sans-serif
+
+    }
+    .job-details .job-id #job-id{
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 15px;
+        color: black;
+    }
+    .job-details .company-name {
+        margin: 0;
+        line-height: 1.6;
+        color: #444;
+        border-bottom: 1px dashed rebeccapurple;
+    }
+    .job-details .company-name h2{
+        font-size: 15px;
+        color: black;
+        font-family: Verdana, Geneva, Tahoma, sans-serif
+
+        /* font-weight: bold; */
+    }
+    .job-details .company-name #company-name{
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 15px;
+        color: black;
+    }
+    .job-details .job-location {
+        margin: 0;
+        line-height: 1.6;
+        color: #444;
+        border-bottom: 1px dashed rebeccapurple;
+    }
+    .job-details .job-location h2{
+        font-family:  Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 15px;
+        color: black;
+        /* font-weight: ; */
+    }
+    .job-details .job-location #job-location   {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 15px;
+        color: black;
+    }
+    .job-details .job-description {
+        margin: 0;
+        line-height: 1.6;
+        color: #444;
+        border-bottom: 1px dashed rebeccapurple;
+    }
+    .job-details .job-description h2{
+        font-family:  Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 15px;
+        color: black;
+        /* font-weight: ; */
+    }
+    .job-details .job-description #job-description   {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 15px;
+        color: black;
+    }
+
+    .job-details .job-salary {
+        margin: 0;
+        line-height: 1.6;
+        color: #444;
+        border-bottom: 1px dashed rebeccapurple;
+    }
+    .job-details .job-salary h2{
+        font-family:  Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 15px;
+        color: black;
+        /* font-weight: ; */
+    }
+    .job-details .job-salary p{
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 15px;
+        color: black;
+    }
+    .job-details .job-requirements {
+        margin: 0;
+        line-height: 1.6;
+        color: #444;
+        border-bottom: 1px dashed rebeccapurple;
+    }
+    .job-details .job-requirements h2{
+        font-family:  Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 15px;
+        color: black;
+        /* font-weight: ; */
+    }
+    .job-details .job-requirements p{
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 15px;
+        color: black;
+    }
+
+    .job-details .created-by {
+        margin: 0;
+        line-height: 1.6;
+        color: #444;
+        /* border-bottom: 1px dashed rebeccapurple; */
+    }
+    .job-details .created-by h2{
+        font-family:  Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 15px;
+        color: black;
+        /* font-weight: ; */
+    }
+    .job-details .created-by p{
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 15px;
+        color: black;
+    }
+    .job-app {
+        text-align: center;
+    }
+    .job-app .apply-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .job-app .apply-button:hover {
+        background-color: #0056b3;
+    }
+
+
+
+    .Job-result-container {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+        padding: 20px;
+        background-color: #f4f4f4;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .success-message {
+        color: green;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    .failed-message{
+        color: red;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+</style>
+
+<div class="container">
+    <!--    <h1>Job Details</h1>-->
+    <div class="job-header">
+        <div class="job-title" id="job-title">
+            Job Title
+        </div>
+    </div>
+    <div class="job-details">
+        <div class="job-id">
+            <h2>Job id :</h2>
+            <div id="job-id">H</div>
+        </div>
+        <div class="company-name">
+            <h2>Company name :</h2>
+            <div id="company-name"></div>
+        </div>
+        <div class="job-location">
+            <h2>Company Location :</h2>
+            <div id = "job-location"></div>
+        </div>
+        <div class="job-description">
+            <h2>Job Description :</h2>
+            <div id="job-description"></div>
+        </div>
+        <div class="job-salary">
+            <h2>Salary</h2>
+            <p>$80,000 per year</p>
+        </div>
+        <div class="job-requirements">
+            <h2>Requirements:</h2>
+            <p>Experience in JavaScript, HTML, and CSS.</p>
+        </div>
+        <div class="created-by" >
+            <h2>created by</h2>
+            <div id="created-by"></div>
+        </div>
+    </div>
+    <div class="job-app">
+<!--            <input type="hidden" name="status" class="status" value="applied">-->
+            <script>
+                const params = new URLSearchParams(window.location.search);
+                console.log(params);
+                // const pathname = window.location.pathname;
+                // console.log(pathname);
+                // let count =0;
+                // for(var i=1;i<pathname.length;i++)
+                // {
+                //     if(pathname.charAt(i)=='/')
+                //     {
+                //         break;
+                //     }
+                //     count = count+1;
+                // }
+                // let c_id = pathname.substring(1,count+1);
+                // console.log(c_id)
+                var id = params.get("id");
+                console.log(id);
+                var e_id = params.get("eid");
+                console.log(e_id);
+                let data = new Object();
+                // console.log(data)
+                // data.id=id;
+
+                let url = "http://localhost:9997/postSingleJob?id=" + id;
+                console.log(url);
+                // $(".empty-screen").html = "";
+                fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                }).then((response) => response.json())
+                    .then((data) => {
+                        console.log(data);
+                        var data1=data.Job_details;
+                        var emp =data.emp_details;
+
+                        console.log(e_id + " "+ id);
+                        console.log(data1)
+                        document.getElementById("job-title").innerHTML = data1[0].job_title;
+                        document.getElementById("job-id").innerHTML =data1[0].job_id;
+                        document.getElementById("job-description").innerHTML = data1[0].job_desc;
+                        document.getElementById("job-location").innerHTML = data1[0].company_location;
+                        document.getElementById("company-name").innerHTML = data1[0].company_name;
+
+                        let fname = emp[0].fname;
+                        let lname = emp[0].lname;
+                        let name = fname + " "+ lname;
+                        document.getElementById("created-by").innerHTML = name;
+                        // document.getElementById('j_id').value = id;
+                        // document.getElementById('e_id').value = e_id;
+
+                        const elm = document.getElementById("myBtn");
+                        elm.addEventListener("click", () => {
+                            window.location.href = "http://localhost:9997/listCandidateApplied?j_id="+id+"&e_id="+e_id;
+                        });
+                    });
+
+
+
+            </script>
+            <button class="apply-button" id = "myBtn" >View List of Candidate Applied</button>
+        </form>
+    </div>
+    <!-- Add more job details and buttons as needed -->
+</div>
+</body>
+</html>
