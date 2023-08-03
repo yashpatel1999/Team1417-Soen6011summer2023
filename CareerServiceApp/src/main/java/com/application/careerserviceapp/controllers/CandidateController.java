@@ -1,11 +1,16 @@
 package com.application.careerserviceapplication.controllers;
 
+import com.application.careerserviceapplication.models.Application;
 import com.application.careerserviceapplication.models.Candidate;
+import com.application.careerserviceapplication.models.Job;
 import com.application.careerserviceapplication.models.Resume;
+import com.application.careerserviceapplication.services.ApplicationService;
 import com.application.careerserviceapplication.services.CandidateService;
 import com.application.careerserviceapplication.services.LoginService;
 import com.application.careerserviceapplication.services.ResumeService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +30,16 @@ public class CandidateController {
     @Autowired
     private ResumeService resumeService = new ResumeService();
 
+    @Autowired
+    private ApplicationService applicationService = new ApplicationService();
+
     @GetMapping("/addCandidate")
 //    @RequestMapping(value = "/addCandidate",method = RequestMethod.POST)
     public String addCandidate(@RequestParam String firstName, @RequestParam String lastName,
                              @RequestParam String email, @RequestParam String address1,
                              @RequestParam String address2, @RequestParam String password, @RequestParam Date birthday
             , @RequestParam String from, Model model) throws ClassNotFoundException, SQLException {
-        System.out.println("addCandidate:: Going to add a candidate > " + firstName);
+        System.out.println("addCandidate:: Going to add a candidate > " + firstName + " "+ lastName);
         Candidate candidate = new Candidate();
 
         candidate.setFirstName(firstName);
@@ -86,6 +94,15 @@ public class CandidateController {
         return "create_resume";
     }
 
+    @PostMapping("/postCandidateResumeData")
+    public  ResponseEntity<String> postCandidateResumedata(@RequestParam String cid) throws SQLException, ClassNotFoundException {
+        System.out.println("Post Resume details");
+        String response = candidateService.getCandidateData(cid);
+        return ResponseEntity.ok(response);
+    }
+
+
+
     @GetMapping("/processResume")
     public String processResume(
             @RequestParam(value = "firstName", required = false) String firstName,
@@ -117,22 +134,26 @@ public class CandidateController {
         if (status.equalsIgnoreCase("notExist")) {
             resumeService.saveResume(resume);
             model.addAttribute("status", "success");
-            model.addAttribute("message", "success");
-            return "redirect:/success/" + email;
+            model.addAttribute("message", "Resume uploaded successfully");
+            return "redirect:/viewAllJobs?id="+email;
         } else {
-            return "redirect:/failed/" + email;
+            model.addAttribute("status", "failed");
+            model.addAttribute("message", "You Already uploaded your Resume");
+            return "create_resume";
         }
     }
-    @GetMapping("/success/{pid}")
-    public String goSuccess(@PathVariable String pid, Model model) {
-        model.addAttribute("pid", pid);
-        System.out.println("resume uploaded successfully : " + pid);
-        return "success";
+    @PostMapping("/getAllJobs")
+    public ResponseEntity<String> getJobs(@RequestParam String id) throws JsonProcessingException, SQLException, ClassNotFoundException {
+        System.out.println("get All jobs");
+        String response=candidateService.getAllJobs(id);
+//        System.out.println("");
+        return ResponseEntity.ok(response);
     }
-    @GetMapping("/failed/{pid}")
-    public String checkFailed(@PathVariable String pid, Model model) {
-        model.addAttribute("pid", pid);
-        System.out.println("resume didn't uploaded successfully: " + pid);
-        return "failed";
+
+    @PostMapping("/postSingleJob")
+    public ResponseEntity<String> postSingleJob(@RequestParam String id) throws JsonProcessingException, SQLException, ClassNotFoundException{
+        System.out.println("single job");
+        String response = candidateService.getSingleJob(id);
+        return ResponseEntity.ok(response);
     }
 }

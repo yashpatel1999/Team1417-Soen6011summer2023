@@ -5,13 +5,15 @@ import com.application.careerserviceapplication.models.Job;
 import com.application.careerserviceapplication.services.EmployerService;
 import com.application.careerserviceapplication.services.JobService;
 import com.application.careerserviceapplication.services.LoginService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -49,20 +51,31 @@ public class EmployerController {
         return "redirect:/user_login";
     }
     @GetMapping("/employer/{pid}")
-    public String goEmployer(@PathVariable String pid, Model model) {
+    public String goEmployer(@PathVariable String pid, Model model) throws JsonProcessingException, SQLException, ClassNotFoundException {
         model.addAttribute("pid", pid);
 //        model1.addAttribute("pid",pid);
         System.out.println("goEmployer:: The employer pid is : " + pid);
+        String response=employerService.getJobs(pid);
+        System.out.println(response);
         return "employer";
     }
 
     @GetMapping("/createJobPosting")
-    public String createResume(@RequestParam String id, Model model)
+    public String createJob(@RequestParam String id, Model model)
     {
         model.addAttribute("pid",id);
         System.out.println("Create Job: by Employee"+ id);
         return "createJobPosting";
     }
+
+    @GetMapping("/viewJobPosting")
+    public String viewJobPosting(@RequestParam String id, Model model)
+    {
+        model.addAttribute("id",id);
+        System.out.println("view Job Posted by::"+ id);
+        return "viewJobPosting";
+    }
+
     @GetMapping("/addJobPosting")
     public String addJobposting(
             @RequestParam(value = "jobId") String jobId,
@@ -70,21 +83,26 @@ public class EmployerController {
             @RequestParam(value = "desc",required = false) String desc,
 //            @RequestParam(value = "jobposted") String jobposted,
             @RequestParam(value = "companyName",required = false)String companyName,
-            @RequestParam(value = "companyLocation",required = false) String companyLocation,Model model
+            @RequestParam(value = "companyLocation",required = false) String companyLocation,
+            @RequestParam String href,Model model
     ) throws SQLException, ClassNotFoundException {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Job job = new Job();
+        Employer employer=new Employer();
+        employer.setEmail(href);
         job.setJid(jobId);
         job.setTitle(title);
         job.setDesc(desc);
         job.setJobPosted((new Date()));
         job.setCompanyName(companyName);
         job.setCompanyLocation(companyLocation);
-
-        String email = (String) model.getAttribute("pid");
-        job.setPostedBy(email);
-
-//        employerService.getEmployer()
+        job.setPostedBy(employer);
+////        URL url = new URL(request.getRequestURL().toString());
+//        String email = (String) model.getAttribute("pid");
+////        System.out.println(email.toString());
+////        job.setPostedBy(email);
+////        employerService.getEmployer()
+//        System.out.println("id:"+href);
         System.out.println("Job info : " + job);
 
         String status = jobService.checkJobExist(jobId);
@@ -95,21 +113,26 @@ public class EmployerController {
             jobService.saveJobs(job);
             model.addAttribute("status", "success");
             model.addAttribute("message", "success");
-            return "redirect:/success/" + email;
+            return "jobList";
         } else {
-            return "redirect:/failed/" + email;
+            return "failed";
         }
     }
-    @GetMapping("/success_job/{pid}")
-    public String checkSuccessJob(@PathVariable String pid, Model model) {
-        model.addAttribute("pid", pid);
-        System.out.println("JOB uploaded successfully : " + pid);
-        return "success";
+  
+    @PostMapping("/getJobs")
+    public ResponseEntity<String> getJobs(@RequestParam String id) throws JsonProcessingException, SQLException, ClassNotFoundException {
+        System.out.println("get jobs");
+        String response=employerService.getJobs(id);
+//        System.out.println("");
+        return ResponseEntity.ok(response);
     }
-    @GetMapping("/failed_job/{pid}")
-    public String checkFailedJob(@PathVariable String pid, Model model) {
-        model.addAttribute("pid", pid);
-        System.out.println("JOB didn't uploaded successfully: " + pid);
-        return "failed";
+
+    
+    @PostMapping("/postResumeDetails")
+    public  ResponseEntity<String> postResumeDetails(@RequestParam String cid) throws SQLException, ClassNotFoundException {
+        System.out.println("Post Resume details");
+        String response = employerService.postResumeDetails(cid);
+        return ResponseEntity.ok(response);
     }
+   
 }
