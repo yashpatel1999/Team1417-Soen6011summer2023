@@ -171,6 +171,7 @@ public class CandidateController {
         return ResponseEntity.ok(response);
     }
 
+
     @PostMapping("/getAppliedJobs")
     public ResponseEntity<String> getAppliedJobs(@RequestParam String id) throws JsonProcessingException, SQLException, ClassNotFoundException {
         System.out.println("get applied jobs");
@@ -186,6 +187,7 @@ public class CandidateController {
 //        System.out.println("");
         return ResponseEntity.ok(response);
     }
+  
     @GetMapping("/addApplication")
     public String addApplication(@RequestParam (value = "j_id") String j_id, @RequestParam( value = "c_id") String c_id,
                                  @RequestParam (value = "status") String status, Model model) throws SQLException, ClassNotFoundException {
@@ -206,7 +208,11 @@ public class CandidateController {
             applicationService.saveApplication(application);
             model.addAttribute("status", "success");
             model.addAttribute("message", "Application Successfully submitted");
+
             return "redirect:/viewAllJobs?id="+c_id;
+
+            return "viewSingleJob";
+
         }
         else {
             model.addAttribute("status", "failed");

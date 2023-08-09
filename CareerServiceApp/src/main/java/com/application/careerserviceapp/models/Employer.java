@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -12,10 +14,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "employer")
 public class Employer {
 
-    @Id
-    @Column(name="Employer_id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY,generator = "id_Sequence")
-    private Long e_id;
+//    @Id
+//    @Column(name="Employer_id")
+//    @GeneratedValue(strategy=GenerationType.IDENTITY,generator = "id_Sequence")
+//    private Long e_id;
 
     @Column(name="fname")
     private String firstName;
@@ -23,6 +25,7 @@ public class Employer {
     @Column(name="lname")
     private String lastName;
 
+    @Id
     @Column(name="email_id")
     private String email;
 
@@ -32,17 +35,21 @@ public class Employer {
     @Column(name="mbile_no")
     private long mobile;
 
+    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "fk_emp_email", referencedColumnName = "email_id")
+    private List<Job> job;
+
     public String toString() {
-        return e_id + " ~ " + firstName + " ~ " + lastName + " ~ " + company_name + " ~ " + mobile + " ~ " + email;
+        return  firstName + " ~ " + lastName + " ~ " + company_name + " ~ " + mobile + " ~ " + email;
     }
 
-    public Long getE_id() {
-        return e_id;
-    }
-
-    public void setE_id(Long e_id) {
-        this.e_id = e_id;
-    }
+//    public Long getE_id() {
+//        return e_id;
+//    }
+//
+//    public void setE_id(Long e_id) {
+//        this.e_id = e_id;
+//    }
 
     public String getFirstName() {
         return firstName;

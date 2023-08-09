@@ -97,8 +97,12 @@ public class CandidateService {
                     String company_name = resultSet.getString("company_name");
                     String job_desc = resultSet.getString("job_desc");
                     String job_title = resultSet.getString("job_title");
+
                     String job_posted = String.valueOf(resultSet.getDate("job_posted"));
                     String deadline = String.valueOf(resultSet.getDate("deadline"));
+
+                    Date job_posted = resultSet.getDate("job_posted");
+
                     JSONObject obj = new JSONObject();
                     System.out.println(jid + " - " + company_location + " - " + company_name + " - " + job_desc + " - " + job_title + " - " + job_posted);
                     obj.put("job_id", jid);
@@ -107,7 +111,9 @@ public class CandidateService {
                     obj.put("job_desc", job_desc);
                     obj.put("job_title", job_title);
                     obj.put("job_posted", job_posted);
+
                     obj.put("deadline",deadline);
+
                     jb.add(obj);
                 }
             }
@@ -127,6 +133,7 @@ public class CandidateService {
                 }
             }
             jList.put("emp_details", emp);
+
             query = "select job_id from application_details where c_id = '"+id+"';";
             resultSet = st.executeQuery(query);
             JSONArray jobArr =new JSONArray();
@@ -142,6 +149,7 @@ public class CandidateService {
                 }
             }
             jList.put("jobIds",jobArr);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -249,7 +257,11 @@ public class CandidateService {
                     String fname = resultSet1.getString("fname");
                     String lname = resultSet1.getString("lname");
                     String address = resultSet1.getString("address");
+
                     String dob = String.valueOf(resultSet1.getDate("date_of_birth"));
+
+                    Date dob = resultSet1.getDate("date_of_birth");
+
                     JSONObject canObj = new JSONObject();
                     canObj.put("email_id",email);
                     canObj.put("fname",fname);
@@ -260,6 +272,7 @@ public class CandidateService {
                 }
             }
             crList.put("can_details",cb);
+
             query1 = "select * from resumedetails where email_id = '"+cid +"';";
             resultSet1=st.executeQuery(query1);
             md1 = resultSet1.getMetaData();
@@ -283,6 +296,7 @@ public class CandidateService {
                 }
             }
             crList.put("resDetails",resDetails);
+
         }
         catch (Exception e)
         {
@@ -290,6 +304,7 @@ public class CandidateService {
         }
         return crList.toJSONString();
     }
+
 
     public String getAppliedJob(String cid) throws SQLException, ClassNotFoundException {
         System.out.println("Getting Applied Job for Candidate::");
@@ -424,4 +439,5 @@ public class CandidateService {
         }
         return rList.toJSONString();
     }
+
 }

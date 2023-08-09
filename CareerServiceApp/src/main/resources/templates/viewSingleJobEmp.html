@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">-->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,9 +16,9 @@
     />
     <!--        <link rel="stylesheet" href="css/viewJob.css">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-            crossorigin="anonymous"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"-->
+<!--            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"-->
+<!--            crossorigin="anonymous"></script>-->
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>view Job</title>
@@ -177,7 +177,7 @@
         color: black;
         /* font-weight: ; */
     }
-    .job-details .created-by p{
+    .job-details .created-by #created-by{
         font-family: 'Courier New', Courier, monospace;
         font-size: 15px;
         color: black;
@@ -185,8 +185,18 @@
     .job-app {
         text-align: center;
     }
-    .job-app .apply-button {
+    .job-app .apply-button{
         background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    #removeJobBtn{
+        background-color: indianred;
         color: white;
         border: none;
         padding: 10px 20px;
@@ -198,6 +208,9 @@
 
     .job-app .apply-button:hover {
         background-color: #0056b3;
+    }
+    #removeJobBtn:hover {
+        background-color: #d96262;
     }
 
 
@@ -222,9 +235,89 @@
         font-size: 18px;
         margin-bottom: 10px;
     }
+    body {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .header-icon {
+        height: 90px;
+        width: 110px;
+    }
+
+    .nav {
+        padding: 20px;
+        font-size: 20px;
+    }
+
+    .dropdown-menu li {
+        padding: 10px;
+        font-size: 20px;
+    }
+
+    .d-flex {
+        background-image: url('https://mindyourmind.ca/sites/default/files/assets/images/post/2022/05/Mental-Health-Week-2022-1480.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 500px;
+    }
+
+    .d-flex .main-heading {
+        font-size: 80px;
+        text-align: center;
+        padding: 220px 0px 220px 0px;
+        color: white;
+    }
+
+    .full-text-container {
+        text-align: center;
+        padding: 30px 120px;
+    }
+
+    .paragraph-text {
+        font-size: 20px;
+    }
+
+    .image-with-description {
+        display: flex;
+    }
+
+    .image-with-description img {
+        height: 200px;
+        width: 350px;
+        margin: 30px 60px 30px 80px;
+    }
+
+    .image-with-description_description {
+        margin: 70px 0 70px 0;
+    }
+
+    /* button{
+        background-color: #F0A04B;
+        border: none;
+        padding: 10px 60px;
+        font-size: 20px;
+        color: white;
+    } */
+    footer, footer a {
+        color: white;
+        font-size: 20px;
+        padding: 10px 40px 10px 40px;
+    }
 
 </style>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="/index"><img class="header-icon" src="/images/careerservices.jpeg"></a>
+        </div>
 
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a th:href="@{/getEmployerProfile(id=${pid})}">profile</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <div class="container">
     <!--    <h1>Job Details</h1>-->
     <div class="job-header">
@@ -264,70 +357,89 @@
     </div>
     <div class="job-app">
 <!--            <input type="hidden" name="status" class="status" value="applied">-->
-            <script>
-                const params = new URLSearchParams(window.location.search);
-                console.log(params);
-                // const pathname = window.location.pathname;
-                // console.log(pathname);
-                // let count =0;
-                // for(var i=1;i<pathname.length;i++)
-                // {
-                //     if(pathname.charAt(i)=='/')
-                //     {
-                //         break;
-                //     }
-                //     count = count+1;
-                // }
-                // let c_id = pathname.substring(1,count+1);
-                // console.log(c_id)
-                var id = params.get("id");
-                console.log(id);
-                var e_id = params.get("eid");
-                console.log(e_id);
-                let data = new Object();
-                // console.log(data)
-                // data.id=id;
-
-                let url = "http://localhost:9997/postSingleJob?id=" + id;
-                console.log(url);
-                // $(".empty-screen").html = "";
-                fetch(url, {
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                }).then((response) => response.json())
-                    .then((data) => {
-                        console.log(data);
-                        var data1=data.Job_details;
-                        var emp =data.emp_details;
-
-                        console.log(e_id + " "+ id);
-                        console.log(data1)
-                        document.getElementById("job-title").innerHTML = data1[0].job_title;
-                        document.getElementById("job-id").innerHTML =data1[0].job_id;
-                        document.getElementById("job-description").innerHTML = data1[0].job_desc;
-                        document.getElementById("job-location").innerHTML = data1[0].company_location;
-                        document.getElementById("company-name").innerHTML = data1[0].company_name;
-
-                        let fname = emp[0].fname;
-                        let lname = emp[0].lname;
-                        let name = fname + " "+ lname;
-                        document.getElementById("created-by").innerHTML = name;
-                        // document.getElementById('j_id').value = id;
-                        // document.getElementById('e_id').value = e_id;
-
-                        const elm = document.getElementById("myBtn");
-                        elm.addEventListener("click", () => {
-                            window.location.href = "http://localhost:9997/listCandidateApplied?j_id="+id+"&e_id="+e_id;
-                        });
-                    });
-
-
-
-            </script>
-            <button class="apply-button" id = "myBtn" >View List of Candidate Applied</button>
+        <form id="removeJob" action="removeJob">
+            <input type="hidden" id="j_id" name="j_id" class="j_id">
+            <input type="hidden" id="e_id" name="e_id" class="e_id">
+           <button class="apply-button" id="removeJobBtn"> Remove Job Posting</button>
         </form>
+        <button class="apply-button" id = "myBtn" >View List of Candidate Applied</button>
     </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        console.log(params);
+        // const pathname = window.location.pathname;
+        // console.log(pathname);
+        // let count =0;
+        // for(var i=1;i<pathname.length;i++)
+        // {
+        //     if(pathname.charAt(i)=='/')
+        //     {
+        //         break;
+        //     }
+        //     count = count+1;
+        // }
+        // let c_id = pathname.substring(1,count+1);
+        // console.log(c_id)
+        var id = params.get("id");
+        console.log(id);
+        var e_id = params.get("eid");
+        console.log(e_id);
+        let data = new Object();
+        // console.log(data)
+        // data.id=id;
+
+        let url = "http://localhost:9997/postSingleJob?id=" + id;
+        console.log(url);
+        // $(".empty-screen").html = "";
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }).then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                var data1=data.Job_details;
+                var emp =data.emp_details;
+
+                console.log(e_id + " "+ id);
+                console.log(data1)
+                document.getElementById("job-title").innerHTML = data1[0].job_title;
+                document.getElementById("job-id").innerHTML =data1[0].job_id;
+                document.getElementById("job-description").innerHTML = data1[0].job_desc;
+                document.getElementById("job-location").innerHTML = data1[0].company_location;
+                document.getElementById("company-name").innerHTML = data1[0].company_name;
+
+                let fname = emp[0].fname;
+                let lname = emp[0].lname;
+                let name = fname + " "+ lname;
+                document.getElementById("created-by").innerHTML = name;
+                // document.getElementById('j_id').value = id;
+                // document.getElementById('e_id').value = e_id;
+
+                const elm = document.getElementById("myBtn");
+                elm.addEventListener("click", () => {
+                    window.location.href = "http://localhost:9997/listCandidateApplied?j_id="+id+"&e_id="+e_id;
+                });
+
+                const removeBtn = document.getElementById("removeJobBtn");
+                removeBtn.addEventListener("click",()=>{
+                   document.getElementById("j_id").value = id ;
+                    document.getElementById("e_id").value = e_id ;
+                });
+            });
+
+
+
+    </script>
     <!-- Add more job details and buttons as needed -->
 </div>
+<footer class="text-center text-white fixed-bottom" style="background-color: #21081a;">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        <p class="paragraph-text">Contact Us:</p>
+        <a href="#">Github</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Email</a>
+        <p class="paragraph-text" style="padding-top: 10px; font-size: 10px;">© 2023 Copyright</p>
+    </div>
+</footer>
 </body>
 </html>

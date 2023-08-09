@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -33,6 +35,9 @@ public class Candidate {
 
     @Column(name="date_of_birth")
     private Date birthday;
+
+//    @OneToMany(cascade = CascadeType.ALL)
+//    private List<Application> application;
 
     public Date getBirthday() {
         return birthday;
@@ -66,7 +71,7 @@ public class Candidate {
         return lastName;
     }
 
-    public void setLname(String lname) {
+    public void setLname(String lastName) {
         this.lastName = lastName;
     }
 

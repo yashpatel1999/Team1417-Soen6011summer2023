@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">-->
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,13 +35,91 @@
         </div>
 
         <ul class="nav navbar-nav navbar-right">
+
+            <li>
+                <a th:href="@{/getProfile(id=${pid})}">profile</a>
             <li><a href="register">Sign Up <span class="caret"></span></a>
             </li>
             <li><a href="user_login">Login <span class="caret"></span></a>
+
             </li>
         </ul>
     </div>
 </nav>
+
+
+<div class="buttonNav">
+    <div class="btnNav">
+        <button class="nav-btn" id="button1">All Job Posting</button>
+        <button class="nav-btn" id="button2">Applied Jobs</button>
+        <button class="nav-btn" id="button3">Selected Jobs</button>
+    </div>
+</div>
+    <div class="slider">
+        <div class="slide" id="content1">
+            <div class="jobs-list-container">
+                <h2>Jobs</h2>
+
+                <form id="add-application" action="addApplication" class="add-application">
+                    <input type="hidden" name="j_id" class="j_id" value="">
+                    <input type="hidden" name="c_id" class="c_id" value="">
+                    <input type="hidden" name="status" class="status" value="applied">
+                    <!--        <button class="details-btn"></button>-->
+                </form>
+
+                <input class="job-search" id="searchInput" type="text" placeholder="Search here..." />
+
+                <div class="jobs"></div>
+            </div>
+        </div>
+        <div class="slide" id="content2">
+            <h1>Jobs Applied</h1>
+            <table id="candidate-table1">
+                <thead>
+                <tr>
+                    <th>Job_id</th>
+                    <th>Company Location</th>
+                    <th>Company Name</th>
+                    <th>Job Description</th>
+                    <th>Job Title</th>
+                    <th>Job posted</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Table rows will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+        <div class="slide" id="content3">
+            <h1>Selected in Jobs</h1>
+            <table id="candidate-table2">
+                <thead>
+                <tr>
+                    <th>Job_id</th>
+                    <th>Company Location</th>
+                    <th>Company Name</th>
+                    <th>Job Description</th>
+                    <th>Job Title</th>
+                    <th>Job posted</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Table rows will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<footer class="text-center text-white position-sticky" style="background-color: #21081a;">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        <p class="paragraph-text">Contact Us:</p>
+        <a href="#">Github</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Email</a>
+        <p class="paragraph-text" style="padding-top: 10px; font-size: 10px;">© 2023 Copyright</p>
+    </div>
+</footer>
+
 <div id="confetti"></div>
 <div class="jobs-list-container">
     <h2>Jobs</h2>

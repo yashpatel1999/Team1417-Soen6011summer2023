@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap"
+            rel="stylesheet"
+    />
+    <!--        <link rel="stylesheet" href="css/viewJob.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"-->
+<!--            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"-->
+<!--            crossorigin="anonymous"></script>-->
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>View All Candidates</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f5f9;
+            color: #333;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #4a90e2;
+        }
+
+        #candidate-table1 {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        #candidate-table1 th,#candidate-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #candidate-table1 th {
+            background-color: #4a90e2;
+            color: #fff;
+            font-weight: bold;
+        }
+        #candidate-table2 {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        #candidate-table2 th,#candidate-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #candidate-table2 th {
+            background-color: #4a90e2;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f0f5f9;
+        }
+
+        tr:hover {
+            background-color: #d1e4f1;
+        }
+
+        .resume-link
+        {
+            text-decoration: none;
+            border: 1px solid #023047;
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            transition: all 400ms ease;
+        }
+        .resume-link:hover
+        {
+            background: #023047;
+            color: #fff;
+        }
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .header-icon {
+            height: 90px;
+            width: 110px;
+        }
+
+        .nav {
+            padding: 20px;
+            font-size: 20px;
+        }
+
+        .dropdown-menu li {
+            padding: 10px;
+            font-size: 20px;
+        }
+
+        .d-flex {
+            background-image: url('https://mindyourmind.ca/sites/default/files/assets/images/post/2022/05/Mental-Health-Week-2022-1480.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 500px;
+        }
+
+        .d-flex .main-heading {
+            font-size: 80px;
+            text-align: center;
+            padding: 220px 0px 220px 0px;
+            color: white;
+        }
+
+        .full-text-container {
+            text-align: center;
+            padding: 30px 120px;
+        }
+
+        .paragraph-text {
+            font-size: 20px;
+        }
+
+        .image-with-description {
+            display: flex;
+        }
+
+        .image-with-description img {
+            height: 200px;
+            width: 350px;
+            margin: 30px 60px 30px 80px;
+        }
+
+        .image-with-description_description {
+            margin: 70px 0 70px 0;
+        }
+
+        /* button{
+            background-color: #F0A04B;
+            border: none;
+            padding: 10px 60px;
+            font-size: 20px;
+            color: white;
+        } */
+        footer, footer a {
+            color: white;
+            font-size: 20px;
+            padding: 10px 40px 10px 40px;
+        }
+        .buttonNav{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 10vh; /* Set minimum height to occupy the full viewport */
+            padding: 20px;
+        }
+
+        .btnNav {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .slider {
+            display: flex;
+            overflow-x: hidden;
+            width: 100%;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        .slide {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 40px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            min-width: 100%;
+            flex-shrink: 0;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            border: 1px solid #023047;
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            transition: all 400ms ease;
+            margin-left: 10px;
+        }
+
+        .nav-btn::after {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: transparent;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .nav-btn:hover {
+            background: #023047;
+            color: #fff;
+        }
+
+        .nav-btn.active {
+            background-color: lightskyblue; /* Darker blue for active button */
+            text-decoration: underline; /* Add underline to active button */
+        }
+
+        .nav-btn.active::after {
+            background-color: #2980b9;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="/index"><img class="header-icon" src="/images/careerservices.jpeg"></a>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a th:href="@{/getEmployerProfile(id=${pid})}">profile</a>
+                <a href="myLink">Home</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="buttonNav">
+    <div class="btnNav">
+        <button class="nav-btn" id="button1">Applied Jobs</button>
+        <button class="nav-btn" id="button2">Selected Jobs</button>
+    </div>
+</div>
+<div class="slider">
+    <div class="slide" id="content1">
+        <h1>View Applied Candidates</h1>
+        <table id="candidate-table1">
+            <thead>
+            <tr>
+                <th>Email-id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Address</th>
+                <th>Date of Birth</th>
+                <th>view resume</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Table rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+    <div class="slide" id="content2">
+        <h1>View Selected Candidates</h1>
+        <table id="candidate-table2">
+            <thead>
+            <tr>
+                <th>Email-id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Address</th>
+                <th>Date of Birth</th>
+                <th>view resume</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Table rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    console.log(params);
+    var id = params.get("j_id");
+    console.log(id);
+    let data = new Object();
+    // console.log(data)
+    // data.id=id;
+
+    var e_id = params.get("e_id");
+    console.log(e_id);
+    let url = "http://localhost:9997/postCandidateList?j_id=" + id;
+    console.log(url);
+    // $(".empty-screen").html = "";
+    fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+    }).then((response) => response.json())
+        .then((data) => {
+            console.log(data)
+            var data1 = data.can_details;
+            const tableBody = document.querySelector("#candidate-table1 tbody");
+            console.log("till here1");
+            data1.forEach(candidate => {
+                const row = createCandidateRow(candidate);
+                tableBody.appendChild(row);
+            });
+            console.log("till here1");
+            function createCandidateRow(candidate) {
+                const row = document.createElement("tr");
+
+                const emailCell = document.createElement("td");
+                emailCell.textContent = candidate.email_id;
+                row.appendChild(emailCell);
+
+                const fnameCell = document.createElement("td");
+                fnameCell.textContent = candidate.fname;
+                row.appendChild(fnameCell);
+
+                const lnameCell = document.createElement("td");
+                lnameCell.textContent = candidate.lname;
+                row.appendChild(lnameCell);
+
+                const addressCell = document.createElement("td");
+                addressCell.textContent = candidate.address10;
+                row.appendChild(addressCell);
+
+                const dobCell = document.createElement("td");
+                dobCell.textContent = candidate.date_of_birth;
+                row.appendChild(dobCell);
+
+                const resumeCell = document.createElement("td");
+                const resumeLink =document.createElement("a");
+                resumeLink.textContent = "view resume";
+                resumeLink.classList.add("resume-link");
+                resumeLink.addEventListener("click", () => {
+                    redirectToCandidateProfile(candidate.email_id);
+                });
+                resumeCell.appendChild(resumeLink);
+                row.appendChild(resumeCell);
+                return row;
+            }
+            function redirectToCandidateProfile(candidateEmail)
+            {
+                console.log(candidateEmail);
+                window.location.href = `http://localhost:9997/viewCandidateProfile?cid=${candidateEmail}&jid=`+id+ `&eid=`+e_id;
+            }
+
+            const buttons = document.querySelectorAll('.nav-btn');
+            const contents = document.querySelectorAll('.slide');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    buttons.forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    // Add active class to the clicked button
+                    button.classList.add('active');
+
+                    // Hide all content divs
+                    contents.forEach(content => {
+                        content.style.display = 'none';
+                    });
+
+                    // Show the corresponding content based on the clicked button
+                    const contentId = button.id.replace('button', 'content');
+                    const contentToShow = document.getElementById(contentId);
+                    contentToShow.style.display = 'block';
+                });
+            });
+            const myLink = document.getElementById("myLink");
+            myLink.addEventListener("click",()=>{
+               window.location.href = "http://localhost:9997/employer/"+e_id;
+            });
+
+        });
+    let data2 =new Object();
+    let url2 = "http://localhost:9997/postSelectedCandidateList?j_id=" + id;
+    fetch(url2, {
+        method: 'POST',
+        body: JSON.stringify(data2),
+    }).then((response) => response.json())
+        .then((data2) =>{
+            var data1 = data2.can_details;
+            const tableBody = document.querySelector("#candidate-table2 tbody");
+            console.log("till here1");
+            data1.forEach(candidate => {
+                const row = createCandidateRow(candidate);
+                tableBody.appendChild(row);
+            });
+            console.log("till here1");
+            function createCandidateRow(candidate) {
+                const row = document.createElement("tr");
+
+                const emailCell = document.createElement("td");
+                emailCell.textContent = candidate.email_id;
+                row.appendChild(emailCell);
+
+                const fnameCell = document.createElement("td");
+                fnameCell.textContent = candidate.fname;
+                row.appendChild(fnameCell);
+
+                const lnameCell = document.createElement("td");
+                lnameCell.textContent = candidate.lname;
+                row.appendChild(lnameCell);
+
+                const addressCell = document.createElement("td");
+                addressCell.textContent = candidate.address10;
+                row.appendChild(addressCell);
+
+                const dobCell = document.createElement("td");
+                dobCell.textContent = candidate.date_of_birth;
+                row.appendChild(dobCell);
+
+                const resumeCell = document.createElement("td");
+                const resumeLink =document.createElement("a");
+                resumeLink.textContent = "view resume";
+                resumeLink.classList.add("resume-link");
+                resumeLink.addEventListener("click", () => {
+                    redirectToCandidateProfile(candidate.email_id);
+                });
+                resumeCell.appendChild(resumeLink);
+                row.appendChild(resumeCell);
+                return row;
+            }
+            function redirectToCandidateProfile(candidateEmail)
+            {
+                console.log(candidateEmail);
+                window.location.href = `http://localhost:9997/viewCandidateProfile?cid=${candidateEmail}&jid=`+id+ `&eid=`+e_id;
+            }
+
+        });
+</script>
+</div>
+<footer class="text-center text-white fixed-bottom" style="background-color: #21081a;">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        <p class="paragraph-text">Contact Us:</p>
+        <a href="#">Github</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Email</a>
+        <p class="paragraph-text" style="padding-top: 10px; font-size: 10px;">© 2023 Copyright</p>
+    </div>
+</footer>
+</body>
+</html>
+
