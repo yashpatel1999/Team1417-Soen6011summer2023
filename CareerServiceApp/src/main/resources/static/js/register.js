@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function (event) {
     var userType = document.querySelector('#userType');
     var registerForms = document.querySelectorAll(".register-form");
-    var doctorRegisterForm = document.querySelector("#doctorRegisterForm .register-button");
-    var patientRegisterForm = document.querySelector("#patientRegisterForm .register-button");
-    var counsellorRegisterForm = document.querySelector("#counsellorRegisterForm .register-button");
+    var employerRegisterForm = document.querySelector("#employerRegisterForm .register-button");
+    var candidateRegisterForm = document.querySelector("#candidateRegisterForm .register-button");
+    var adminRegisterForm = document.querySelector("#adminRegisterForm .register-button");
     var skeletonContainer = document.querySelector(".skeleton-container")
     // var mobileNum = document.querySelector(".mobileNumber");
     var registerFetchUrl = "http://localhost:9992/savePatient"; // Replace With API URL
@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
     });
 
-// patient form submit event
-    patientRegisterForm.addEventListener('click', function (event) {
+// candidate form submit event
+    candidateRegisterForm.addEventListener('click', function (event) {
         event.preventDefault();
         var form = this.parentElement;
         var firstName = form.querySelector(".firstName");
@@ -83,8 +83,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         form.submit();
     });
-// doctor form submit event
-    doctorRegisterForm.addEventListener('click', function (event) {
+// employer form submit event
+    employerRegisterForm.addEventListener('click', function (event) {
         event.preventDefault();
         var form = this.parentElement;
         var firstName = form.querySelector(".firstName");
@@ -137,8 +137,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
         //     });
         form.submit();
     });
-// counsellor form submit event
-    counsellorRegisterForm.addEventListener('click', function (event) {
+// admin form submit event
+    adminRegisterForm.addEventListener('click', function (event) {
         event.preventDefault();
 
         var form = this.parentElement;
