@@ -118,7 +118,25 @@ public class EmployerController {
             return "failed";
         }
     }
-  
+    @GetMapping("/jobList/{pid}")
+//    public String checkSuccessJob(@PathVariable String pid, Model model) {
+//        model.addAttribute("pid", pid);
+//        System.out.println("JOB uploaded successfully : " + pid);
+//        return "success";
+//    }
+    public ModelAndView getAllJob()
+    {
+        ModelAndView modelAndView=new ModelAndView("jobList");
+        modelAndView.addObject("jobs",jobService.listAll());
+        return modelAndView;
+    }
+    @GetMapping("/failed_job/{pid}")
+    public String checkFailedJob(@PathVariable String pid, Model model) {
+        model.addAttribute("pid", pid);
+        System.out.println("JOB didn't uploaded successfully: " + pid);
+        return "failed";
+    }
+
     @PostMapping("/getJobs")
     public ResponseEntity<String> getJobs(@RequestParam String id) throws JsonProcessingException, SQLException, ClassNotFoundException {
         System.out.println("get jobs");
@@ -127,12 +145,63 @@ public class EmployerController {
         return ResponseEntity.ok(response);
     }
 
-    
+    @GetMapping("/getSingleJobEmp")
+    public String getSingleJob(@RequestParam String eid, @RequestParam String id,Model model)
+    {
+        model.addAttribute("eid",eid);
+        model.addAttribute("id",id);
+        System.out.println("e_id ::"+eid);
+        System.out.println("j_id ::"+id);
+        return "viewSingleJobEmp";
+    }
+    @GetMapping("/listCandidateApplied")
+    public String listCandidateApplied(@RequestParam String j_id, @RequestParam String e_id,Model model)
+    {
+        model.addAttribute("eid",e_id);
+        model.addAttribute("jid",j_id);
+        System.out.println("j_id::"+ j_id);
+        System.out.println("e_id::"+ e_id);
+        return "listCandidateApplied";
+    }
+    @PostMapping("/postCandidateList")
+    public ResponseEntity<String> postCandidate(@RequestParam String j_id) throws JsonProcessingException, SQLException, ClassNotFoundException {
+        System.out.println("post candidate");
+        String response=employerService.postCandidate(j_id);
+//        System.out.println("");
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/viewCandidateProfile")
+    public String viewCandidateProfile(@RequestParam String cid,@RequestParam String eid,@RequestParam String jid, Model model)
+    {
+        System.out.println("In candidate profile evaluation");
+        model.addAttribute("eid",eid);
+        model.addAttribute("cid",cid);
+        model.addAttribute("jid",jid);
+        return "viewCandidateProfileEmp";
+    }
+
     @PostMapping("/postResumeDetails")
     public  ResponseEntity<String> postResumeDetails(@RequestParam String cid) throws SQLException, ClassNotFoundException {
         System.out.println("Post Resume details");
         String response = employerService.postResumeDetails(cid);
         return ResponseEntity.ok(response);
     }
-   
+    @GetMapping("/selectCandidate")
+    public String selectCandidate(@RequestParam String cid,@RequestParam String jid, @RequestParam String status,@RequestParam String eid, Model model) throws SQLException, ClassNotFoundException {
+        System.out.println("Select candidate");
+        String res  =  employerService.updateStatus(cid,jid,status);
+        System.out.println("response:"+res);
+        if(res.equalsIgnoreCase("success"))
+        {
+            model.addAttribute("status", "success");
+            model.addAttribute("message", "Candidate successfully selected");
+            return "redirect:/listCandidateApplied?j_id="+jid+"&e_id="+eid;
+        }
+        else {
+            model.addAttribute("status", "success");
+            model.addAttribute("message", "Candidate Rejected!!");
+            return "listCandidateApplied";
+        }
+    }
 }
