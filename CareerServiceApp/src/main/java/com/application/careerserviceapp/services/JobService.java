@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 @Service
 public class JobService {
@@ -60,5 +61,9 @@ public class JobService {
             DatabaseAccess.connection.close();
         }
         return status;
+    }
+    public List<Job> listAll()
+    {
+        return jobRepository.findAll();
     }
 }

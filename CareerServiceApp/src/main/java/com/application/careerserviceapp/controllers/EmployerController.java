@@ -84,7 +84,8 @@ public class EmployerController {
 //            @RequestParam(value = "jobposted") String jobposted,
             @RequestParam(value = "companyName",required = false)String companyName,
             @RequestParam(value = "companyLocation",required = false) String companyLocation,
-            @RequestParam String href,Model model
+            @RequestParam String href,
+            @RequestParam java.sql.Date appDeadline, Model model
     ) throws SQLException, ClassNotFoundException {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Job job = new Job();
@@ -97,6 +98,7 @@ public class EmployerController {
         job.setCompanyName(companyName);
         job.setCompanyLocation(companyLocation);
         job.setPostedBy(employer);
+        job.setAppDeadline(appDeadline);
 ////        URL url = new URL(request.getRequestURL().toString());
 //        String email = (String) model.getAttribute("pid");
 ////        System.out.println(email.toString());
@@ -113,9 +115,11 @@ public class EmployerController {
             jobService.saveJobs(job);
             model.addAttribute("status", "success");
             model.addAttribute("message", "success");
-            return "jobList";
+            return "redirect:/viewJobPosting?id="+href;
         } else {
-            return "failed";
+            model.addAttribute("status", "failed");
+            model.addAttribute("message", "Job Already Posted");
+            return "createJobPosting";
         }
     }
     @GetMapping("/jobList/{pid}")
@@ -170,6 +174,13 @@ public class EmployerController {
 //        System.out.println("");
         return ResponseEntity.ok(response);
     }
+    @PostMapping("/postSelectedCandidateList")
+    public ResponseEntity<String> postSelectedCandidate(@RequestParam String j_id) throws JsonProcessingException, SQLException, ClassNotFoundException {
+        System.out.println("post candidate");
+        String response=employerService.postSelectedCandidate(j_id);
+//        System.out.println("");
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("/viewCandidateProfile")
     public String viewCandidateProfile(@RequestParam String cid,@RequestParam String eid,@RequestParam String jid, Model model)
@@ -201,7 +212,27 @@ public class EmployerController {
         else {
             model.addAttribute("status", "success");
             model.addAttribute("message", "Candidate Rejected!!");
-            return "listCandidateApplied";
+            return "redirect:/listCandidateApplied?j_id="+jid+"&e_id="+eid;
         }
+    }
+
+    @GetMapping("/removeJob")
+    public String removeJob(@RequestParam String j_id,@RequestParam String e_id, Model model)
+    {
+        System.out.println("remove Job");
+        employerService.removeJob(j_id);
+        return "redirect:/viewJobPosting?id="+e_id;
+    }
+    @GetMapping("/getEmployerProfile")
+    public String getProfile(@RequestParam String id,Model model)
+    {
+        model.addAttribute("eid",id);
+        return "viewProfileEmp";
+    }
+    @PostMapping("/postEmployerDetailsProfile")
+    public  ResponseEntity<String> postEmployerDetails(@RequestParam String eid) throws SQLException, ClassNotFoundException {
+        System.out.println("Post Resume details");
+        String response = employerService.postEmployerDetails(eid);
+        return ResponseEntity.ok(response);
     }
 }
