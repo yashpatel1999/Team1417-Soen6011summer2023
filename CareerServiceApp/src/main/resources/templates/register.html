@@ -38,9 +38,9 @@
 <!--        <label for="userType">I am a:</label>-->
         <select name="userType" id="userType">
             <option value="none">Select your role</option>
-            <option value="patient">Candidate</option>
-            <option value="doctor">Employer</option>
-            <option value="counsellor">Admin</option>
+            <option value="candidate">Candidate</option>
+            <option value="employer">Employer</option>
+            <option value="admin">Admin</option>
         </select>
 
         <!-- skeleton to display loader -->
@@ -53,10 +53,10 @@
             <div class="skeleton"></div>
             <div class="skeleton skeleton-btn"></div>
         </div>
-        <!-- Register form for a doctor -->
+        <!-- Register form for a employer -->
 
-        <!-- Register form for a patient -->
-        <form id="patientRegisterForm" action="addCandidate" class="display-none register-form">
+        <!-- Register form for a candidate -->
+        <form id="candidateRegisterForm" action="addCandidate" class="display-none register-form">
 
             <div class="success-message display-none">You are registered successfully.</div>
             <div class="field-raw">
@@ -108,7 +108,7 @@
             <button class="register-button">Submit</button>
         </form>
 
-        <form id="doctorRegisterForm" action="addEmployer" class="display-none register-form">
+        <form id="employerRegisterForm" action="addEmployer" class="display-none register-form">
             <div class="success-message display-none">You are registered successfully.</div>
             <div class="field-raw">
                 <label for="firstName">First name:</label>
@@ -170,7 +170,7 @@
 
 
         <!-- Register form for a counsellor -->
-        <form id="counsellorRegisterForm" action="addCounsellor" class="display-none register-form">
+        <form id="adminRegisterForm" action="addCounsellor" class="display-none register-form">
             <div class="success-message display-none">You are registered successfully.</div>
             <div class="field-raw">
                 <label for="firstName">First name:</label>

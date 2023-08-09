@@ -6,78 +6,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/resumeForm.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="/index"><img class="header-icon" src="/images/careerservices.jpeg"></a>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a th:href="@{/getProfile(id=${pid}}">profile</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <main>
-<h1>Create Resume</h1>
-<div class="register-container">
-    <h1 class="register-title">Create Resume</h1>
-    <div class="alert alert-danger w-100" th:if="${status == 'failed'}" th:inline="text">
-        [[${message}]]
+    <div class="blur-container display-none" th:if="${status == 'failed'}" th:inline="text">
+        <div class="warning-box">
+            <h1>Warning!</h1>
+            <p>[[${message}]]</p>
+            <script>
+                setTimeout(myURL, 5500);
+                function myURL()
+                {
+                    const params= new URLSearchParams(window.location.search);
+                    var id= params.get("email");
+                    console.log(id);
+                    window.location.href = `http://localhost:9997/viewAllJobs?id=`+id;
+                }
+            </script>
+        </div>
     </div>
-    <div class="skeleton-container display-none">
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton skeleton-btn"></div>
+    <div class="blur-container display-none" th:if="${status == 'success'}" th:inline="text">
+        <div class="success-box">
+            <h1>Success</h1>
+            <p>[[${message}]]</p>
+            <script>
+                setTimeout(myURL, 5500);
+                function myURL()
+                {
+                    const params= new URLSearchParams(window.location.search);
+                    var id= params.get("email");
+                    window.location.href = `http://localhost:9997/viewAllJobs?id=`+id;
+                }
+            </script>
+        </div>
     </div>
-<form id="resumeBuilder" action="processResume" class="display-none register-form">
-    <!-- Add fields for creating a new resume -->
-    <div class="success-message display-none"> you uploaded resume successfully</div>
-    <div class="field-raw">
-        <label for="firstName">First Name:</label>
-        <input type="text" class="firstName" name="firstName" value=""><br><br>
-        <small class="alert-message">*First Name is required</small>
+    <div class="register-container">
+        <h1 class="register-title">Create Resume</h1>
+        <div class= "register-form">
+        <form id="resumeBuilder" action="processResume">
+            <!-- Add fields for creating a new resume -->
+            <div class="field-raw">
+                <label for="firstName">First Name:</label>
+                <input type="text" class="firstname editable-field" name="firstName" id="fname" value="" disabled><br><br>
+                <small class="alert-message">*First Name is required</small>
+            </div>
+            <div class="field-raw">
+                <label for="lastName">Last Name:</label>
+                <input type="text" class="lastName editable-field" name="lastName" id="lname" value="" disabled><br><br>
+                <small class="alert-message">*Last Name is required</small>
+            </div>
+            <div class="field-raw">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" class="dob editable-field" name="dob" id="dob" value=""disabled><br><br>
+                <small class="alert-message">*Birthday is required</small>
+            </div>
+            <div class="field-raw">
+                <label for="contactNumber">Contact Number:</label>
+                <input type="text" name="contactNumber" class="contactNumber" id="contactNumber"
+                       onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                <small class="alert-message">*contact number is required</small>
+            </div>
+            <div class="field-raw">
+                <label for="email">Email:</label>
+                <input type="text" class="email editable-field" name="email" id="email-id12" value="" disabled><br><br>
+                <small class="alert-message">*Email is required</small>
+            </div>
+            <div class="field-raw">
+                <label for="education">Education:</label>
+                <textarea class="education" name="education" rows="4" id="education"></textarea><br><br>
+                <small class="alert-message">*education is required</small>
+            </div>
+            <div class="field-raw">
+                <label for="workExperience">Work Experience:</label>
+                <textarea class="workExperience" name="workExperience" rows="4" id="workExperience"></textarea><br><br>
+                <small class="alert-message">*work experience is required</small>
+            </div>
+            <div class="field-raw">
+                <label for="projects">Projects:</label>
+                <textarea class="projects" name="projects" rows="4" id="projects"></textarea><br><br>
+                <small class="alert-message">*Project is required</small>
+            </div>
+            <div class="field-raw">
+                <label for="skills">Skills:</label>
+                <textarea class="skills" id="skills" name="skills" rows="4"></textarea><br><br>
+                <small class="alert-message">*Skills is required</small>
+            </div>
+            <button class="register-button">Submit</button>
+
+        </form>
+            <button class="edit-button" id="edit">edit</button>
+        </div>
+
     </div>
-    <div class="field-raw">
-        <label for="lastName">Last Name:</label>
-        <input type="text" class="lastName" name="lastName"><br><br>
-        <small class="alert-message">*Last Name is required</small>
-    </div>
-    <div class="field-raw">
-        <label for="dob">Date of Birth:</label>
-        <input type="date" class="dob" name="dob"><br><br>
-        <small class="alert-message">*Birthday is required</small>
-    </div>
-    <div class="field-raw">
-        <label for="contactNumber">Contact Number:</label>
-        <input type="text" name="contactNumber" class="contactNumber"
-               onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
-    </div>
-    <div class="field-raw">
-        <label for="email">Email:</label>
-        <input type="email" class="email" name="email"><br><br>
-        <small class="alert-message">*Mobile Number is required</small>
-    </div>
-    <div class="field-raw">
-        <label for="education">Education:</label>
-        <textarea class="education" name="education" rows="4"></textarea><br><br>
-        <small class="alert-message">*education is required</small>
-    </div>
-    <div class="field-raw">
-        <label for="workExperience">Work Experience:</label>
-        <textarea class="workExperience" name="workExperience" rows="4"></textarea><br><br>
-        <small class="alert-message">*work experience is required</small>
-    </div>
-    <div class="field-raw">
-        <label for="projects">Projects:</label>
-        <textarea class="projects" name="projects" rows="4"></textarea><br><br>
-        <small class="alert-message">*Project is required</small>
-    </div>
-    <div class="field-raw">
-        <label for="skills">Skills:</label>
-        <textarea id="skills" name="skills" rows="4"></textarea><br><br>
-        <small class="alert-message">*Skills is required</small>
-    </div>
-    <button class="register-button">Submit</button>
-</form>
-</div>
+
+    <script src="js/resumeForm.js"></script>
+    <script>
+
+    </script>
 </main>
+<footer class="text-center text-white fixed-bottom" style="background-color: #21081a;">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        <p class="paragraph-text">Contact Us:</p>
+        <a href="#">Github</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Email</a>
+        <p class="paragraph-text" style="padding-top: 10px; font-size: 10px;">© 2023 Copyright</p>
+    </div>
+</footer>
 </body>
 </html>
