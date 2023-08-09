@@ -28,6 +28,25 @@ public class ResumeService {
         }
     }
 
+    public void updateResume(Resume resume)
+    {
+        try
+        {
+            Statement st = DatabaseAccess.getConnection();
+            String email = resume.getEmail();
+            String query  = "delete from resumedetails where email_id = '" +email +"';";
+            int rowsUpdated = st.executeUpdate(query);
+            if (rowsUpdated ==1)
+            {
+                resumeRepository.save(resume);
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception occurred");
+            e.printStackTrace();
+        }
+    }
 
     public String checkResume(String email) throws SQLException, ClassNotFoundException {
         System.out.println("check Resume:: Going to fetch details of ");
@@ -62,4 +81,5 @@ public class ResumeService {
         }
         return status;
     }
+
 }

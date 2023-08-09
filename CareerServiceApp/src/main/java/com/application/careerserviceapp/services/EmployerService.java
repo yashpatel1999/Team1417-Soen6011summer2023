@@ -100,7 +100,8 @@ public class EmployerService {
                     String company_name=resultSet.getString("company_name");
                     String job_desc=resultSet.getString("job_desc");
                     String job_title=resultSet.getString("job_title");
-                    Date job_posted=resultSet.getDate("job_posted");
+                    String job_posted= String.valueOf(resultSet.getDate("job_posted"));
+                    String deadLine = String.valueOf(resultSet.getDate("deadline"));
                     JSONObject obj=new JSONObject();
                     System.out.println(jid + " - " + company_location + " - " + company_name + " - " + job_desc+" - "+job_title+" - "+job_posted);
                     obj.put("job_id",jid);
@@ -109,6 +110,7 @@ public class EmployerService {
                     obj.put("job_desc",job_desc);
                     obj.put("job_title",job_title);
                     obj.put("job_posted",job_posted);
+                    obj.put("deadline",deadLine);
                     jb.add(obj);
                 }
             }
@@ -167,7 +169,7 @@ public class EmployerService {
                         String fname = resultSet1.getString("fname");
                         String lname = resultSet1.getString("lname");
                         String address = resultSet1.getString("address");
-                        Date dob = resultSet1.getDate("date_of_birth");
+                        String dob = String.valueOf(resultSet1.getDate("date_of_birth"));
                         JSONObject canObj = new JSONObject();
                         canObj.put("email_id",email);
                         canObj.put("fname",fname);
@@ -250,5 +252,108 @@ public class EmployerService {
             DatabaseAccess.connection.close();
         }
         return sts;
+    }
+
+    public void removeJob(String j_id)
+    {
+        System.out.println("in remove job");
+        try {
+            Statement st = DatabaseAccess.getConnection();
+            String query = "Delete from job_details where job_id = '" +j_id+"';";
+            int rowsUpdated = st.executeUpdate(query);
+            if(rowsUpdated == 1)
+            {
+                query = "DELETE  from application_details where job_id = '" +j_id +"';";
+                st.executeUpdate(query);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+    public String postSelectedCandidate(String jid) throws SQLException, ClassNotFoundException {
+        System.out.println("Getting List of Candidates applied ::");
+        JSONObject cList=new JSONObject();
+        try
+        {
+            Statement st=DatabaseAccess.getConnection();
+            String query = "Select c_id from application_details where job_id = '" + jid + "' and status ='accepted';";
+            ResultSet resultSet = st.executeQuery(query);
+            ResultSetMetaData md= resultSet.getMetaData();
+            JSONArray cb=new JSONArray();
+            List<String> canList = new ArrayList<>();
+            if (md.getColumnCount() > 0) {
+                while (resultSet.next()) {
+                    String c_id = resultSet.getString("c_id");
+                    canList.add(c_id);
+                }
+            }
+            for(String x : canList)
+            {
+                String query1 = "SELECT email_id,fname,lname,date_of_birth,address from candidate where email_id='"+ x+"'";
+                ResultSet resultSet1 = st.executeQuery(query1);
+                ResultSetMetaData md1= resultSet1.getMetaData();
+                if(md1.getColumnCount()>0)
+                {
+                    while (resultSet1.next())
+                    {
+                        String email = resultSet1.getString("email_id");
+                        String fname = resultSet1.getString("fname");
+                        String lname = resultSet1.getString("lname");
+                        String address = resultSet1.getString("address");
+                        String dob = String.valueOf(resultSet1.getDate("date_of_birth"));
+                        JSONObject canObj = new JSONObject();
+                        canObj.put("email_id",email);
+                        canObj.put("fname",fname);
+                        canObj.put("lname",lname);
+                        canObj.put("address10",address);
+                        canObj.put("date_of_birth",dob);
+                        cb.add(canObj);
+                    }
+                }
+            }
+            cList.put("can_details",cb);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return cList.toJSONString();
+    }
+    public String postEmployerDetails(String eid)
+    {
+        JSONObject eList=new JSONObject();
+        try{
+            Statement st = DatabaseAccess.getConnection();
+            String query = "select * from employer where email_id= '"+ eid +"';";
+            ResultSet resultSet = st.executeQuery(query);
+            ResultSetMetaData md = resultSet.getMetaData();
+            JSONArray eb =new JSONArray();
+            if(md.getColumnCount() > 0)
+            {
+                while (resultSet.next())
+                {
+                    String fname = resultSet.getString("fname");
+                    String lname = resultSet.getString("lname");
+                    String email = resultSet.getString("email_id");
+                    String companyName = resultSet.getString("company_name");
+                    String c_no = resultSet.getString("mbile_no");
+                    JSONObject eObj = new JSONObject();
+                    eObj.put("fname",fname);
+                    eObj.put("lname",lname);
+                    eObj.put("email",email);
+                    eObj.put("companyName1",companyName);
+                    eObj.put("c_no",c_no);
+                    eb.add(eObj);
+                }
+            }
+            eList.put("empDetails",eb);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return eList.toJSONString();
     }
 }

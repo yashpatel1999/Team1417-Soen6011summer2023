@@ -142,10 +142,11 @@ public class CandidateController {
             resumeService.saveResume(resume);
             model.addAttribute("status", "success");
             model.addAttribute("message", "Resume uploaded successfully");
-            return "redirect:/viewAllJobs?id="+email;
+            return "create_resume";
         } else {
+            resumeService.updateResume(resume);
             model.addAttribute("status", "failed");
-            model.addAttribute("message", "You Already uploaded your Resume");
+            model.addAttribute("message", "Your Resume Updated Successfully");
             return "create_resume";
         }
     }
@@ -170,6 +171,23 @@ public class CandidateController {
         return ResponseEntity.ok(response);
     }
 
+
+    @PostMapping("/getAppliedJobs")
+    public ResponseEntity<String> getAppliedJobs(@RequestParam String id) throws JsonProcessingException, SQLException, ClassNotFoundException {
+        System.out.println("get applied jobs");
+        String response=candidateService.getAppliedJob(id);
+//        System.out.println("");
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/getSelectedJobs")
+    public ResponseEntity<String> getSelectedJobs(@RequestParam String id) throws JsonProcessingException, SQLException, ClassNotFoundException {
+        System.out.println("get selected jobs");
+        String response=candidateService.getSelectedJob(id);
+//        System.out.println("");
+        return ResponseEntity.ok(response);
+    }
+  
     @GetMapping("/addApplication")
     public String addApplication(@RequestParam (value = "j_id") String j_id, @RequestParam( value = "c_id") String c_id,
                                  @RequestParam (value = "status") String status, Model model) throws SQLException, ClassNotFoundException {
@@ -190,7 +208,11 @@ public class CandidateController {
             applicationService.saveApplication(application);
             model.addAttribute("status", "success");
             model.addAttribute("message", "Application Successfully submitted");
+
+            return "redirect:/viewAllJobs?id="+c_id;
+
             return "viewSingleJob";
+
         }
         else {
             model.addAttribute("status", "failed");
@@ -212,6 +234,18 @@ public class CandidateController {
     public ResponseEntity<String> postSingleJob(@RequestParam String id) throws JsonProcessingException, SQLException, ClassNotFoundException{
         System.out.println("single job");
         String response = candidateService.getSingleJob(id);
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("/getProfile")
+    public String getProfile(@RequestParam String id,Model model)
+    {
+        model.addAttribute("cid",id);
+        return "viewProfile";
+    }
+    @PostMapping("/postResumeDetailsProfile")
+    public  ResponseEntity<String> postResumeDetails(@RequestParam String cid) throws SQLException, ClassNotFoundException {
+        System.out.println("Post Resume details");
+        String response = candidateService.postResumeDetailsProfile(cid);
         return ResponseEntity.ok(response);
     }
 }

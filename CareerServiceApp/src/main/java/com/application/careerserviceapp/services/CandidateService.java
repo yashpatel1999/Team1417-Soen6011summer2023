@@ -97,7 +97,12 @@ public class CandidateService {
                     String company_name = resultSet.getString("company_name");
                     String job_desc = resultSet.getString("job_desc");
                     String job_title = resultSet.getString("job_title");
+
+                    String job_posted = String.valueOf(resultSet.getDate("job_posted"));
+                    String deadline = String.valueOf(resultSet.getDate("deadline"));
+
                     Date job_posted = resultSet.getDate("job_posted");
+
                     JSONObject obj = new JSONObject();
                     System.out.println(jid + " - " + company_location + " - " + company_name + " - " + job_desc + " - " + job_title + " - " + job_posted);
                     obj.put("job_id", jid);
@@ -106,6 +111,9 @@ public class CandidateService {
                     obj.put("job_desc", job_desc);
                     obj.put("job_title", job_title);
                     obj.put("job_posted", job_posted);
+
+                    obj.put("deadline",deadline);
+
                     jb.add(obj);
                 }
             }
@@ -125,6 +133,23 @@ public class CandidateService {
                 }
             }
             jList.put("emp_details", emp);
+
+            query = "select job_id from application_details where c_id = '"+id+"';";
+            resultSet = st.executeQuery(query);
+            JSONArray jobArr =new JSONArray();
+            md = resultSet.getMetaData();
+            if(md.getColumnCount()>0)
+            {
+                while (resultSet.next())
+                {
+                    String jobId = resultSet.getString("job_id");
+                    JSONObject jobObj =new JSONObject();
+                    jobObj.put("job_id",jobId);
+                    jobArr.add(jobObj);
+                }
+            }
+            jList.put("jobIds",jobArr);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -232,7 +257,11 @@ public class CandidateService {
                     String fname = resultSet1.getString("fname");
                     String lname = resultSet1.getString("lname");
                     String address = resultSet1.getString("address");
+
+                    String dob = String.valueOf(resultSet1.getDate("date_of_birth"));
+
                     Date dob = resultSet1.getDate("date_of_birth");
+
                     JSONObject canObj = new JSONObject();
                     canObj.put("email_id",email);
                     canObj.put("fname",fname);
@@ -243,6 +272,31 @@ public class CandidateService {
                 }
             }
             crList.put("can_details",cb);
+
+            query1 = "select * from resumedetails where email_id = '"+cid +"';";
+            resultSet1=st.executeQuery(query1);
+            md1 = resultSet1.getMetaData();
+            JSONArray resDetails = new JSONArray();
+            if(md1.getColumnCount() > 0)
+            {
+                while (resultSet1.next())
+                {
+                    String c_no =resultSet1.getString("c_no");
+                    String projects =resultSet1.getString("projects");
+                    String education =resultSet1.getString("education");
+                    String workex =resultSet1.getString("workex");
+                    String skills =resultSet1.getString("skills");
+                    JSONObject resObj = new JSONObject();
+                    resObj.put("c_no",c_no);
+                    resObj.put("projects1",projects);
+                    resObj.put("education1",education);
+                    resObj.put("workex",workex);
+                    resObj.put("skills1",skills);
+                    resDetails.add(resObj);
+                }
+            }
+            crList.put("resDetails",resDetails);
+
         }
         catch (Exception e)
         {
@@ -250,4 +304,140 @@ public class CandidateService {
         }
         return crList.toJSONString();
     }
+
+
+    public String getAppliedJob(String cid) throws SQLException, ClassNotFoundException {
+        System.out.println("Getting Applied Job for Candidate::");
+        JSONObject appCaList = new JSONObject();
+        try {
+            Statement st = DatabaseAccess.getConnection();
+            String query = "Select job_id from application_details where status = 'applied' and c_id = '" + cid + "';";
+            ResultSet resultSet = st.executeQuery(query);
+            ResultSetMetaData md = resultSet.getMetaData();
+            JSONArray jb = new JSONArray();
+            List<String> jobList = new ArrayList<>();
+            if (md.getColumnCount() > 0) {
+                while (resultSet.next()) {
+                    String j_id = resultSet.getString("job_id");
+                    jobList.add(j_id);
+                }
+            }
+            for (String x : jobList) {
+                String query1 = "select * from job_details where job_id = '" + x + "';";
+                ResultSet resultSet1 = st.executeQuery(query1);
+                ResultSetMetaData md1 = resultSet1.getMetaData();
+                if (md1.getColumnCount() > 0) {
+                    while (resultSet1.next()) {
+                        String job_id = resultSet1.getString("job_id");
+                        String company_location = resultSet1.getString("company_location");
+                        String company_name = resultSet1.getString("company_name");
+                        String job_desc = resultSet1.getString("job_desc");
+                        String job_title = resultSet1.getString("job_title");
+                        String job_posted = String.valueOf(resultSet1.getDate("job_posted"));
+                        JSONObject jObj = new JSONObject();
+                        jObj.put("job_id", job_id);
+                        jObj.put("company_location", company_location);
+                        jObj.put("company_name", company_name);
+                        jObj.put("job_desc", job_desc);
+                        jObj.put("job_title", job_title);
+                        jObj.put("job_posted", job_posted);
+                        jb.add(jObj);
+                    }
+                }
+            }
+            appCaList.put("job_details", jb);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return appCaList.toJSONString();
+    }
+    public String getSelectedJob(String cid) throws SQLException, ClassNotFoundException {
+        System.out.println("Getting Selected Job for Candidate::");
+        JSONObject appCaList = new JSONObject();
+        try {
+            Statement st = DatabaseAccess.getConnection();
+            String query = "Select job_id from application_details where status = 'accepted' and c_id = '" + cid + "';";
+            ResultSet resultSet = st.executeQuery(query);
+            ResultSetMetaData md = resultSet.getMetaData();
+            JSONArray jb = new JSONArray();
+            List<String> jobList = new ArrayList<>();
+            if (md.getColumnCount() > 0) {
+                while (resultSet.next()) {
+                    String j_id = resultSet.getString("job_id");
+                    jobList.add(j_id);
+                }
+            }
+            for (String x : jobList) {
+                String query1 = "select * from job_details where job_id = '" + x + "';";
+                ResultSet resultSet1 = st.executeQuery(query1);
+                ResultSetMetaData md1 = resultSet1.getMetaData();
+                if (md1.getColumnCount() > 0) {
+                    while (resultSet1.next()) {
+                        String job_id = resultSet1.getString("job_id");
+                        String company_location = resultSet1.getString("company_location");
+                        String company_name = resultSet1.getString("company_name");
+                        String job_desc = resultSet1.getString("job_desc");
+                        String job_title = resultSet1.getString("job_title");
+                        String job_posted = String.valueOf(resultSet1.getDate("job_posted"));
+                        JSONObject jObj = new JSONObject();
+                        jObj.put("job_id", job_id);
+                        jObj.put("company_location", company_location);
+                        jObj.put("company_name", company_name);
+                        jObj.put("job_desc", job_desc);
+                        jObj.put("job_title", job_title);
+                        jObj.put("job_posted", job_posted);
+                        jb.add(jObj);
+                    }
+                }
+            }
+            appCaList.put("job_details", jb);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return appCaList.toJSONString();
+    }
+    public String postResumeDetailsProfile(String cid) throws SQLException, ClassNotFoundException {
+        System.out.println("posting resume details");
+        JSONObject rList = new JSONObject();
+        try{
+            Statement st=DatabaseAccess.getConnection();
+            String query = "select * from resumedetails where email_id= '"+cid+"'";
+            ResultSet resultSet = st.executeQuery(query);
+            ResultSetMetaData md = resultSet.getMetaData();
+            JSONArray res = new JSONArray();
+            if(md.getColumnCount()>0)
+            {
+                while (resultSet.next())
+                {
+                    String email = resultSet.getString("email_id");
+                    String fname =resultSet.getString("fname");
+                    String lname =resultSet.getString("lname");
+                    long c_no = resultSet.getLong("c_no");
+                    String date = String.valueOf(resultSet.getDate("date_of_birth"));
+                    String education  = resultSet.getString("education");
+                    String skills  = resultSet.getString("skills");
+                    String projects  = resultSet.getString("projects");
+                    String workex  = resultSet.getString("workex");
+                    JSONObject resObj =new JSONObject();
+                    resObj.put("email_id",email);
+                    resObj.put("fname",fname);
+                    resObj.put("lname",lname);
+                    resObj.put("c_no",c_no);
+                    resObj.put("date",date);
+                    resObj.put("education1",education);
+                    resObj.put("skills1",skills);
+                    resObj.put("projects1",projects);
+                    resObj.put("workex1",workex);
+                    res.add(resObj);
+                }
+            }
+            rList.put("resumeDetails",res);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return rList.toJSONString();
+    }
+
 }
