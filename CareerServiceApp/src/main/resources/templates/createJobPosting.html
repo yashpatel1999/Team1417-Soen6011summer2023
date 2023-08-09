@@ -6,39 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/resumeForm.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<main>
-<h1>Add a Job Posting</h1>
-<div class="register-container">
-    <div class="skeleton-container display-none">
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton"></div>
-        <div class="skeleton skeleton-btn"></div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="/index"><img class="header-icon" src="/images/careerservices.jpeg"></a>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a th:href="@{/getEmployerProfile(id=${pid})}">profile</a>
+            </li>
+        </ul>
     </div>
-    <form id="resumeBuilder" action="addJobPosting" class="display-none register-form">
+</nav>
+
+<main>
+    <div class="blur-container display-none" th:if="${status == 'failed'}" th:inline="text">
+        <div class="warning-box">
+            <h1>Warning!</h1>
+            <p>[[${message}]]</p>
+            <script>
+                setTimeout(myURL, 5500);
+                function myURL()
+                {
+                    const params= new URLSearchParams(window.location.search);
+                    var id= params.get("href");
+                    console.log(id);
+                    window.location.href = `http://localhost:9997/viewJobPosting?id=`+id;
+                }
+            </script>
+        </div>
+    </div>
+
+<div class="register-container">
+    <h1 class="register-title">Add a Job Posting</h1>
+    <div class="register-form">
+    <form id="jobBuilder" action="addJobPosting">
         <!-- Add fields for creating a new resume -->
-        <div class="success-message display-none"> you uploaded Job successfully</div>
         <div class="field-raw">
             <label for="jobId">Job Id</label>
-            <input type="text" class="jobId" name="jobId" value=""><br><br>
-            <small class="alert-message">*First Name is required</small>
+            <input type="text" class="jobId editable-field" name="jobId" value="" id="jobId" disabled><br><br>
+            <small class="alert-message">*Job Id is required</small>
         </div>
         <div class="field-raw">
             <label for="title">Job Title</label>
-            <input type="text" class="title" name="title" value=""><br><br>
-            <small class="alert-message">*First Name is required</small>
+            <input type="text" class="title" name="title" value="" id="title"><br><br>
+            <small class="alert-message">*Job Title is required</small>
         </div>
-        <div>
+        <div class="field-raw">
             <label for="desc">Job Description</label>
-            <input type="text" class="desc" name="desc"><br><br>
+            <input type="text" class="desc" name="desc" id="desc"><br><br>
             <small class="alert-message">Description is required</small>
         </div>
 <!--        <div>-->
@@ -46,19 +68,115 @@
 <!--            <input type="date" class="jobposted" name="jobposted"><br><br>-->
 <!--            <small class="alert-message">Job Posted is Required</small>-->
 <!--        </div>-->
-        <div>
+        <div class="field-raw">
             <label for="companyName">company Name:</label>
-            <input type="text" name="companyName" class="companyName">
+            <input type="text" name="companyName" class="companyName" id="companyName">
             <small class="alert-message">Company name is Required</small>
         </div>
-        <div>
+        <div class="field-raw">
             <label for="companyLocation">comapany location:</label>
-            <input type="text" class="companyLocation" name="companyLocation"><br><br>
+            <input type="text" class="companyLocation" name="companyLocation" id="companyLocation"><br><br>
             <small class="alert-message">*company Location is required</small>
         </div>
+        <div class="field-raw">
+            <label for="appDeadline">Application DeadLine:</label>
+            <input type="date" class="appDeadline" name="appDeadline" id="appDeadline"><br><br>
+            <small class="alert-message">*Application Deadline is required</small>
+        </div>
+        <div>
+        <input type="hidden" class="href" name="href" id ="href" value="">
+        </div>
+
         <button class="register-button">Submit</button>
     </form>
+        <button class="edit-button" id="edit">edit</button>
+    </div>
 </div>
+    <footer class="text-center text-white fixed-bottom" style="background-color: #21081a;">
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            <p class="paragraph-text">Contact Us:</p>
+            <a href="#">Github</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">Email</a>
+            <p class="paragraph-text" style="padding-top: 10px; font-size: 10px;">© 2023 Copyright</p>
+        </div>
+    </footer>
+    <script>
+        const params= new URLSearchParams(window.location.search);
+        var id= params.get("id");
+        console.log(id);
+        document.getElementById('href').value=id;
+
+        function generateRandomValue() {
+            const currentYear = new Date().getFullYear();
+            const randomChars = generateRandomCharacters(2);
+            const randomNum = generateRandomNumber(10000, 99999);
+
+            const formattedValue = `${randomChars}-${currentYear}-${randomNum}`;
+
+            return formattedValue;
+        }
+
+        function generateRandomCharacters(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                result += characters.charAt(randomIndex);
+            }
+            return result;
+        }
+        function generateRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        const randomValue = generateRandomValue();
+        document.getElementById("jobId").value = randomValue;
+
+        const editButton = document.getElementById("edit");
+        editButton.addEventListener("click", () => {
+            removeDisabled()
+        });
+        function removeDisabled() {
+            console.log("here");
+            var inputs = document.getElementsByClassName("editable-field");
+            console.log(inputs);
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].disabled = false;
+            }
+        }
+
+        var jobCreationForm = document.querySelector("#jobBuilder .register-button");
+        jobCreationForm.addEventListener('click', function (event) {
+            event.preventDefault();
+            var form1 = this.parentElement;
+            console.log("-->"+form1.value);
+            var title = form1.querySelector("#title");
+            var desc = form1.querySelector("#desc");
+            var companyName = form1.querySelector("#companyName");
+            var companyLocation = form1.querySelector("#companyLocation");
+            var appDeadline = form1.querySelector("#appDeadline");
+            var validationArr = [title,desc,companyName,companyLocation,appDeadline];
+            console.log(validationArr);
+            var shouldReturn = false;
+            for (let index = 0; index < validationArr.length; index++) {
+                const element = validationArr[index];
+                console.log(element)
+                if (element.value.trim().length == 0) {
+                    element.parentElement.classList.add("aleart");
+                    shouldReturn = true;
+                } else {
+                    element.parentElement.classList.remove("aleart");
+                }
+            }
+            if (shouldReturn) {
+                return false;
+            }
+            ;
+            form1.submit();
+        });
+
+    </script>
 </main>
+
 </body>
 </html>

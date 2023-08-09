@@ -10,6 +10,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+<style>
+    .heading-candidate
+    {
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        font-family: 'Courier New', Courier, monospace;
+        color: lightblue;
+        align-items: center;
+        margin-left: 430px;
+        font-weight: bolder;
+        /* font-style: italic; */
+    }
+</style>
 <body>
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -17,11 +29,11 @@
             <a href="/"><img class="header-icon" src="/images/careerservices.jpeg"></a>
         </div>
         <div class="navbar-header">
-            <p id="p1"> Welcome to The Candidate Page</p>
+            <h1 class="heading-candidate">WelCome to Candidate Page</h1>
         </div>
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a th:href="@{/profile(id=${pid},type=P)}">My Profile</a>
+                <a th:href="@{/getProfile(id=${pid})}">profile</a>
             </li>
         </ul>
     </div>
@@ -39,9 +51,19 @@
 <div class="image-with-description">
     <img src="/images/uploadResume.png" height="50px" width="50px">
     <div class="image-with-description_description">
-        <h3><a th:href="@{/buildResume(id=${pid})}">Build Your Resume Here</a></h3>
+        <h3><a th:href="@{/viewAllJobs(id=${pid})}">Do Your Job Application Here</a></h3>
         <p class="paragraph-text">Creating a well-crafted resume is the key to opening doors of opportunity and showcasing your skills and accomplishments</p>
     </div>
 </div>
+
+<footer class="text-center text-white fixed-bottom" style="background-color: #21081a;">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        <p class="paragraph-text">Contact Us:</p>
+        <a href="#">Github</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Email</a>
+        <p class="paragraph-text" style="padding-top: 10px; font-size: 10px;">© 2023 Copyright</p>
+    </div>
+</footer>
 </body>
 </html>
