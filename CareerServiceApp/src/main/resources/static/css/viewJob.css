@@ -92,6 +92,23 @@
     transition: all 400ms ease;
 }
 
+.jobs-list-container .details-btn1 {
+    text-decoration: none;
+    border: 1px solid #023047;
+    color: #000;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 20px;
+    transition: all 400ms ease;
+    cursor: pointer;
+}
+.jobs-list-container .details-btn1:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
+
 .jobs-list-container .details-btn:hover {
     background: #023047;
     color: #fff;
@@ -146,4 +163,173 @@ body {
     font-size: 20px;
 }
 
+.d-flex {
+    background-image: url('https://mindyourmind.ca/sites/default/files/assets/images/post/2022/05/Mental-Health-Week-2022-1480.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 500px;
+}
+
+.d-flex .main-heading {
+    font-size: 80px;
+    text-align: center;
+    padding: 220px 0px 220px 0px;
+    color: white;
+}
+
+.full-text-container {
+    text-align: center;
+    padding: 30px 120px;
+}
+
+.paragraph-text {
+    font-size: 20px;
+}
+
+.image-with-description {
+    display: flex;
+}
+
+.image-with-description img {
+    height: 200px;
+    width: 350px;
+    margin: 30px 60px 30px 80px;
+}
+
+.image-with-description_description {
+    margin: 70px 0 70px 0;
+}
+
+/* button{
+    background-color: #F0A04B;
+    border: none;
+    padding: 10px 60px;
+    font-size: 20px;
+    color: white;
+} */
+footer, footer a {
+    color: white;
+    font-size: 20px;
+    padding: 10px 40px 10px 40px;
+}
+
+.buttonNav{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 10vh; /* Set minimum height to occupy the full viewport */
+    padding: 20px;
+}
+
+.btnNav {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.slider {
+    display: flex;
+    overflow-x: hidden;
+    width: 100%;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.slide {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 40px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    min-width: 100%;
+    flex-shrink: 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+.nav-btn {
+    text-decoration: none;
+    border: 1px solid #023047;
+    color: #000;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 20px;
+    transition: all 400ms ease;
+    margin-left: 10px;
+}
+
+.nav-btn::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: transparent;
+    transition: background-color 0.3s ease-in-out;
+}
+.nav-btn:hover {
+    background: #023047;
+    color: #fff;
+}
+
+.nav-btn.active {
+    background-color: lightskyblue; /* Darker blue for active button */
+    text-decoration: underline; /* Add underline to active button */
+}
+
+.nav-btn.active::after {
+    background-color: #2980b9;
+}
+h1 {
+    margin-top: 0;
+    color: #4a90e2;
+}
+
+#candidate-table1 {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#candidate-table1 th,#candidate-table1 td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#candidate-table1 th {
+    background-color: #4a90e2;
+    color: #fff;
+    font-weight: bold;
+}
+#candidate-table2 {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#candidate-table2 th,#candidate-table2 td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#candidate-table2 th {
+    background-color: #4a90e2;
+    color: #fff;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f0f5f9;
+}
+
+tr:hover {
+    background-color: #d1e4f1;
+}
 

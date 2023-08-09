@@ -17,8 +17,10 @@ fetch(url, {
         var data1 = data.Job_details;
         const jobsHeading = document.querySelector(".jobs-list-container h2");
         // const jobsContainer = document.querySelector(".jobs-list-container .jobs");
-        // const jobSearch = document.querySelector(".jobs-list-container .job-search");
+        const jobSearch = document.querySelector(".jobs-list-container .job-search");
+        let searchTerm = "";
         console.log(data1);
+        var data2 = data.jobIds;
 
         if(data1.length>0)
         {
@@ -49,11 +51,37 @@ fetch(url, {
             details.classList.add("details");
 
             let applyButton = document.createElement("a");
-            applyButton.innerHTML = "Apply Here";
-            applyButton.classList.add("details-btn");
-            applyButton.addEventListener("click", () => {
-                redirectToJobPage(jobPosting.job_id);
-            });
+            let deadline = jobPosting.deadline;
+            let currentDate = new Date();
+            if(checkJobId(jobPosting)&&compareDates(deadline,currentDate))
+            {
+                jobCard.style.background = "lightblue";
+                applyButton.innerHTML = "Already Applied and Deadline passed";
+                applyButton.classList.add("details-btn1");
+            }
+            else {
+                if (checkJobId(jobPosting))
+                {
+                    jobCard.style.background = "lightgreen";
+                    applyButton.innerHTML = "Already Applied";
+                    applyButton.classList.add("details-btn1");
+                }
+                else if (compareDates(deadline,currentDate))
+                {
+                    jobCard.style.background = "lightpink";
+                    applyButton.innerHTML = "Deadline passed";
+                    applyButton.classList.add("details-btn1");
+                }
+                else {
+                    applyButton.innerHTML = "Apply Here";
+                    applyButton.classList.add("details-btn");
+                    applyButton.addEventListener("click", () => {
+                        redirectToJobPage(jobPosting.job_id);
+                    });
+                }
+            }
+
+
 
             jobCard.appendChild(image);
             jobCard.appendChild(company_name);
@@ -73,193 +101,170 @@ fetch(url, {
 
         function displayJobPostings(jobPostings) {
             const jobPostingsContainer = document.querySelector(".jobs-list-container .jobs");
+
+
             jobPostingsContainer.innerHTML = "";
 
             jobPostings.forEach((jobPosting) => {
-                const jobCard = createJobPostingCard(jobPosting);
-                jobPostingsContainer.appendChild(jobCard);
+                    const jobCard = createJobPostingCard(jobPosting);
+                    jobPostingsContainer.appendChild(jobCard);
             });
         }
 
+        jobSearch.addEventListener("input", (e) => {
+            searchTerm = e.target.value;
+            console.log(searchTerm);
+            handleSearch(data1);
+        });
+        function handleSearch(jobPostings)
+        {
+            console.log("here in handle search")
+            const filteredJobs = jobPostings.filter(job =>
+                job.job_title.toLowerCase().includes(searchTerm));
+            displayJobPostings(filteredJobs);
+        }
+
+        function checkJobId(jobPostings)
+        {
+            for(let i=0;i<data2.length;i++)
+            {
+                if(jobPostings.job_id == data2[i].job_id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function compareDates(d1, d2){
+            let deadline = new Date(d1).getTime();
+            let currentdate = new Date(d2).getTime();
+
+            if (deadline < currentdate) {
+                return true;
+            }
+            return false;
+        }
         displayJobPostings(data1);
+
+
+        const buttons = document.querySelectorAll('.nav-btn');
+        const contents = document.querySelectorAll('.slide');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                buttons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                // Add active class to the clicked button
+                button.classList.add('active');
+
+                // Hide all content divs
+                contents.forEach(content => {
+                    content.style.display = 'none';
+                });
+
+                // Show the corresponding content based on the clicked button
+                const contentId = button.id.replace('button', 'content');
+                const contentToShow = document.getElementById(contentId);
+                contentToShow.style.display = 'block';
+            });
+        });
 
     });
 
+let dataJob = new Object();
+let urlJob = "http://localhost:9997/getAppliedJobs?id=" + id;
+fetch(urlJob, {
+    method: 'POST',
+    body: JSON.stringify(dataJob),
+}).then((response) => response.json())
+    .then((dataJob) =>{
+        console.log(dataJob);
+        var data1 = dataJob.job_details;
+        const tableBody = document.querySelector("#candidate-table1 tbody");
+        console.log("till here1");
+        data1.forEach(job => {
+            const row = createJobRow(job);
+            tableBody.appendChild(row);
+        });
+        function createJobRow(job) {
+            const row = document.createElement("tr");
 
+            const idCell = document.createElement("td");
+            idCell.textContent = job.job_id;
+            row.appendChild(idCell);
 
+            const companyLocationCell = document.createElement("td");
+            companyLocationCell.textContent = job.company_location;
+            row.appendChild(companyLocationCell);
 
+            const companyNameCell = document.createElement("td");
+            companyNameCell.textContent = job.company_name;
+            row.appendChild(companyNameCell);
 
+            const jobDescCell = document.createElement("td");
+            jobDescCell.textContent = job.job_desc;
+            row.appendChild(jobDescCell);
 
+            const jobTitleCell = document.createElement("td");
+            jobTitleCell.textContent = job.job_title;
+            row.appendChild(jobTitleCell);
 
+            const postedCell = document.createElement("td");
+            postedCell.textContent = job.job_posted;
+            row.appendChild(postedCell);
 
+            return row;
 
+        }
+    });
 
+let dataSelectedJob = new Object();
+let urlJobSelected = "http://localhost:9997/getSelectedJobs?id=" + id;
+fetch(urlJobSelected, {
+    method: 'POST',
+    body: JSON.stringify(dataSelectedJob),
+}).then((response) => response.json())
+    .then((dataSelectedJob) =>{
+        console.log(dataSelectedJob);
+        var data1 = dataSelectedJob.job_details;
+        const tableBody = document.querySelector("#candidate-table2 tbody");
+        console.log("till here1");
+        data1.forEach(job => {
+            const row = createJobRow(job);
+            tableBody.appendChild(row);
+        });
+        function createJobRow(job) {
+            const row = document.createElement("tr");
 
+            const idCell = document.createElement("td");
+            idCell.textContent = job.job_id;
+            row.appendChild(idCell);
 
+            const companyLocationCell = document.createElement("td");
+            companyLocationCell.textContent = job.company_location;
+            row.appendChild(companyLocationCell);
 
+            const companyNameCell = document.createElement("td");
+            companyNameCell.textContent = job.company_name;
+            row.appendChild(companyNameCell);
 
-// $(document).ready(function () {
-//     const params = new URLSearchParams(window.location.search);
-//     console.log(params);
-//     var id = params.get("id");
-//     console.log(id);
-//     var data = new Object();
-//     // console.log(data)
-//     // data.id=id;
-//     let url="http://localhost:9997/getAllJobs?id="+id;
-//     console.log(url);
-//     // $(".empty-screen").html = "";
-//     fetch(url, {
-//         method: 'POST',
-//         body: JSON.stringify(data),
-//     }).then((response) => response.json())
-//         .then((data) => {
-//             console.log(data)
-//             var data1=data.Job_details;
-//             // const jobs=data1[0];
-//             // var job_id=jobs.job_id;
-//             // console.log(data1.length);
-//             // console.log(job_id);
-//             //
-//             const jobsHeading = document.querySelector(".jobs-list-container h2");
-//             const jobsContainer = document.querySelector(".jobs-list-container .jobs");
-//             const jobSearch = document.querySelector(".jobs-list-container .job-search");
-//
-//             let searchTerm = "";
-//
-//             var data1=data.Job_details;
-//             var data2=data.emp_details;
-//             var j_ids=[];
-//             if(data1.length>0)
-//             {
-//                 jobsHeading.innerHTML = `${data1.length} Jobs`;
-//             }
-//
-//             const createJobListingCards = () => {
-//                 jobsContainer.innerHTML = "";
-//                 for(var i=0;i<data1.length;i++)
-//                 {
-//                     let jobCard = document.createElement("div");
-//                     jobCard.classList.add("job");
-//
-//                     let image = document.createElement("img");
-//                     image.src="images/software-engineer.svg";
-//
-//                     let title = document.createElement("h3");
-//                     title.innerHTML = data1[i].job_title;
-//                     title.classList.add("job-title");
-//
-//                     let company_name = document.createElement("div");
-//                     // console.log(job.company_name);
-//                     company_name.innerHTML= data1[i].company_name;
-//                     company_name.classList.add("cName");
-//
-//                     let company_location = document.createElement("h4");
-//                     company_location.innerHTML= data1[i].company_location;
-//                     company_location.classList.add("cLoc");
-//
-//                     let details = document.createElement("div");
-//                     details.innerHTML = data1[i].job_desc;
-//                     details.classList.add("details");
-//
-//                     // let postedBy = document.createElement("div");
-//
-//
-//
-//                     let detailsBtn = document.createElement("button");
-//                     detailsBtn.classList.add("details-btn");
-//                     // detailsBtn.id = 'btn-id_'+i;
-//                     // $(detailsBtn).addClass("details-btn");
-//                     detailsBtn.innerHTML = "Apply Here";
-//                     detailsBtn.id = data1[i].job_id;
-//                     j_ids.push(detailsBtn.id);
-//
-//                     // detailsBtn.addEventListener('click',function (){
-//                     //    // detailsBtn.id = data1[i].job_id;
-//                     //    applyForJob(data1[i].job_id);
-//                     // });
-//
-//                     // $(".details-btn").click(function (){
-//                     //     console.log("clicked");
-//                     //     $("add-application").submit();
-//                     //     console.log("after submit");
-//                     // });
-//
-//                     console.log(detailsBtn.id);
-//
-//
-//
-//                     let name1 = document.createElement("div");
-//                     let fname = data2[i].fname;
-//                     let lname = data2[i].lname;
-//                     name1.innerHTML = "posted by: "+fname+" "+lname;
-//                     console.log(name1);
-//                     name1.classList.add("nameEmp");
-//
-//                     jobCard.appendChild(image);
-//                     jobCard.appendChild(company_name);
-//                     jobCard.appendChild(company_location);
-//                     jobCard.appendChild(title);
-//                     jobCard.appendChild(details);
-//                     jobCard.appendChild(detailsBtn);
-//                     jobCard.appendChild(name1);
-//                     jobsContainer.appendChild(jobCard);
-//
-//
-//                     // console.log(data1[1].job_id)
-//                     // document.getElementById('job_id').value =data1[i].job_id;
-//                 }
-//
-//                 console.log(j_ids);
-//             };
-//
-//             // function applyForJob(jobId)
-//             // {
-//             //     // var form = document.getElementById("add-application");
-//             //     // document.getElementById(jobId).addEventListener("click", function () {
-//             //     //     console.log(jobId);
-//             //     //     console.log("clicked");
-//             //     //     document.getElementById("j_id").value = jobId;
-//             //     //     document.getElementById("c_id").value = id;
-//             //     //     form.submit();
-//             //     // });
-//             //     console.log(`applying for job ${jobId}`);
-//             // }
-//
-//
-//             createJobListingCards();
-//
-//
-//             jobSearch.addEventListener("input",(e) => {
-//                 searchTerm= e.target.value;
-//                 createJobListingCards();
-//             });
-//                 for (var j = 0; j < j_ids.length; j++) {
-//                     var form = document.getElementById("add-application");
-//                     document.getElementById(j_ids[j]).addEventListener("click", function () {
-//                         // let job_id = data1[j].job_id;
-//                         // console.log(job_id);
-//                         console.log("clicked");
-//                         document.getElementById("j_id").value = j_ids[j];
-//                         document.getElementById("c_id").value = id;
-//                         form.submit();
-//                     });
-//                 }
-//
-//             // let job_id = data1[0].job_id;
-//             //     var form = document.getElementById("add-application");
-//             //     document.getElementById("btn-id_2").addEventListener("click", function () {
-//             //
-//             //                 console.log(job_id);
-//             //                 console.log("clicked");
-//             //                 document.getElementById("j_id").value = job_id;
-//             //                 document.getElementById("c_id").value = id;
-//             //                 form.submit();
-//             //             });
-//         });
-// });
-//
-//
-//
-//
-//
+            const jobDescCell = document.createElement("td");
+            jobDescCell.textContent = job.job_desc;
+            row.appendChild(jobDescCell);
+
+            const jobTitleCell = document.createElement("td");
+            jobTitleCell.textContent = job.job_title;
+            row.appendChild(jobTitleCell);
+
+            const postedCell = document.createElement("td");
+            postedCell.textContent = job.job_posted;
+            row.appendChild(postedCell);
+
+            return row;
+
+        }
+    });

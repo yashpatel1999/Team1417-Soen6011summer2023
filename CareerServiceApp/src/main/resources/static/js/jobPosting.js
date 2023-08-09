@@ -16,6 +16,8 @@ fetch(url, {
         console.log(data)
         var data1 = data.Job_details;
         const jobsHeading = document.querySelector(".jobs-list-container h2");
+        const jobSearch = document.querySelector(".jobs-list-container .job-search");
+        let searchTerm = "";
         if(data1.length>0)
         {
             jobsHeading.innerHTML = `${data1.length} Jobs`;
@@ -44,8 +46,15 @@ fetch(url, {
             details.innerHTML = jobPosting.job_desc;
             details.classList.add("details");
 
+            let deadline = jobPosting.deadline;
+            let currentDate = new Date();
             let applyButton = document.createElement("a");
-            applyButton.innerHTML = "Apply Here";
+            if(compareDates(deadline,currentDate))
+            {
+                jobCard.style.backgroundColor = "lightpink";
+            }
+
+            applyButton.innerHTML = "Click Here";
             applyButton.classList.add("details-btn");
             applyButton.addEventListener("click", () => {
                 redirectToJobPage(jobPosting.job_id);
@@ -76,5 +85,27 @@ fetch(url, {
         }
 
         displayJobPostings(data1);
+        jobSearch.addEventListener("input", (e) => {
+            searchTerm = e.target.value;
+            console.log(searchTerm);
+            handleSearch(data1);
+        });
+        function handleSearch(jobPostings)
+        {
+            console.log("here in handle search")
+            const filteredJobs = jobPostings.filter(job =>
+                job.job_title.toLowerCase().includes(searchTerm));
+            displayJobPostings(filteredJobs);
+        }
+
+        function compareDates(d1, d2){
+            let deadline = new Date(d1).getTime();
+            let currentdate = new Date(d2).getTime();
+
+            if (deadline < currentdate) {
+                return true;
+            }
+            return false;
+        }
     });
 

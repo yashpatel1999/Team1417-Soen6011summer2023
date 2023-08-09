@@ -6,11 +6,14 @@ body {
     height: 90px;
     width: 130px;
 }
+.header-icon2 {
+    height: 50px;
+    width: 110px;
+}
 
 .nav {
     padding: 20px;
     font-size: 20px;
-
 }
 
 .dropdown-menu li {
